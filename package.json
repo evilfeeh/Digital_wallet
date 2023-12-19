@@ -23,6 +23,7 @@
   },
   "homepage": "https://github.com/evilfeeh/digital-wallet#readme",
   "devDependencies": {
+    "@types/node": "^20.10.5",
     "@types/validator": "^13.11.7",
     "nodemon": "^3.0.2"
   },
