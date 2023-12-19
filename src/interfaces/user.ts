@@ -1,14 +1,15 @@
 export interface Ipassword {
-  password: String;
+  password: string;
 }
 
 export interface Iuser {
-  id?: String;
-  fullname: String;
-  CPF_CNPJ: String;
-  email: String;
+  id?: string;
+  fullname: string;
+  CPF_CNPJ: string;
+  email: string;
+  password: string;
   commonUser?: boolean;
   active?: boolean;
-  password: string;
+  phone: string;
 }
 
