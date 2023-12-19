@@ -33,8 +33,12 @@ export default class DataValidation implements IdataValidation {
       this.dataResponse.message = 'Fullname cannot be empty'
     }
 
-    if (!validator.isAlpha(fullname, 'pt-BR')) {
+    if (!validator.isAlpha(fullname, 'pt-BR', {ignore: / /g})) {
       this.dataResponse.message = 'FullName is not valid'
+    }
+
+    if (fullname.search(/ /g) === -1) {
+      this.dataResponse.message = 'You should pass at least two names'
     }
 
     if (!validator.isLength(fullname, { min: 6, max: 50 })) {
@@ -42,39 +46,52 @@ export default class DataValidation implements IdataValidation {
     }
   }
   _checkPassword (password: string) {
+    const specialCharacters = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/g
     if (validator.isEmpty(password)) {
       this.dataResponse.message = 'Password cannot be empty'
     }
 
-    if (!validator.isAlphanumeric(password)) {
-      console.log(validator.isAlphanumeric(password))
-      this.dataResponse.message = 'Password must have letters, numbers and special caracters'
+    if (!validator.isAlphanumeric(password, 'pt-BR', { ignore: specialCharacters })) {
+      this.dataResponse.message = 'Password should have letters, numbers and special charaters'
+    }
+
+    if (password.search(specialCharacters) === -1) {
+      this.dataResponse.message = 'Password should have at least one special character'
     }
 
     if (!validator.isLength(password, { min: 8, max: undefined })) {
-    this.dataResponse.message = 'password should have minimum 8 caracters'
+    this.dataResponse.message = 'password should have minimum 8 charaters'
     }
   }
   _checkDocument (document: string) {
     if (validator.isEmpty(document)) {
       this.dataResponse.message = 'Document CPF/CPNJ cannot be empty'
     }
+
     if (validator.isNumeric(document)) {
       this.dataResponse.message = 'Document should be numeric'
     }
+
     if (!validator.isLength(document, {min: 11, max: 20})) {
       this.dataResponse.message = 'Document should be a valid document'
+    }
+
+    if (document.search(/[.\/-]/g) != -1) {
+      const justNumbers = document.replace(/[.\/-]/g, '')
+      if (justNumbers.length >= 11) this.dataResponse.message = 'Document should be a valid document'
     }
   }
   _checkPhone (phone: string) {
     if (validator.isEmpty(phone)) {
       this.dataResponse.message = 'Phone cannot be empty'
     }
-    if (validator.isNumeric(phone)) {
-      this.dataResponse.message = 'Phone should be numeric'
+
+    if (!validator.isNumeric(phone)) {
+    this.dataResponse.message = 'Phone should be numeric'
     }
+
     if (phone.length != 11) {
-      this.dataResponse.message = 'Phone should be a valid document'
+      this.dataResponse.message = 'Phone should be valid'
     }
   }
 }
