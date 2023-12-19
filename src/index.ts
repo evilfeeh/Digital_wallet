@@ -5,14 +5,8 @@ import DataValidation from './adapters/DataValidation'
 class Index {
   dataValidation = new DataValidation
   createNewUser (user: Iuser) {
-    const { status, message } = this.dataValidation.newUser(user)
-
-    if (status == 'Error') {
-      return { status, message }
-    }
-
     const userManagment = new UserManagment(user)
-    userManagment.create()
+    return userManagment.new()
   }
 }
 
