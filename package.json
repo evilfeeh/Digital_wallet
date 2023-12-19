@@ -2,10 +2,10 @@
   "name": "digital-wallet",
   "version": "0.0.1",
   "description": "digital wallet just for knowledge",
-  "main": "index.ts",
+  "main": "./src/index.ts",
   "scripts": {
-    "start": "npx ts-node index.ts",
-    "start:dev": "nodemon index.ts",
+    "start": "npx ts-node ./src/index.ts",
+    "start:dev": "nodemon ./src/index.ts",
     "test": "jest"
   },
   "repository": {
