@@ -1,9 +1,9 @@
 import { Iuser } from '../interfaces/user'
 
 export interface IUserRepository {
-  Get: (id: Iuser['id']) => Iuser;
-  GetAll: (id: Iuser['id']) => Iuser[];
-  Save: (user: Iuser) => boolean;
-  Update: (user: Iuser) => boolean;
-  Delete: (user: Iuser) => boolean;
+  get: (email: Iuser['email']) => Promise<Iuser>;
+  getAll: () => Promise<Iuser[]>;
+  save: (user: Iuser) => Promise<boolean>;
+  update: (id: Iuser['id'], params: any) => Promise<boolean>;
+  delete: (id: Iuser['id']) => Promise<boolean>;
 }
