@@ -3,7 +3,7 @@ export interface Ipassword {
 }
 
 export interface Iuser {
-  id?: string;
+  id: string;
   fullname: string;
   CPF_CNPJ: string;
   email: string;
