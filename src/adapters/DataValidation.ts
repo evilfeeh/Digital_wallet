@@ -8,18 +8,18 @@ export default class DataValidation implements IdataValidation {
     status: 'Success',
     message: ''
   };
-  newUser (user: Iuser): IdataValidationResponse {
-    this._checkDocument(user.CPF_CNPJ)
-    this._checkEmail(user.email)
-    this._checkFullname(user.fullname)
-    this._checkPhone(user.phone)
-    this._checkPassword(user.password)
+  newUser (user: Iuser, password: string): IdataValidationResponse {
+    this.checkDocument(user.CPF_CNPJ)
+    this.checkEmail(user.email)
+    this.checkFullname(user.fullname)
+    this.checkPhone(user.phone)
+    this.checkPassword(password)
 
     if (this.dataResponse.message) this.dataResponse.status = 'Error'
 
     return this.dataResponse
   }
-  _checkEmail (email: string) {
+  private checkEmail (email: string) {
     if (validator.isEmpty(email)) {
       this.dataResponse.message = 'Email cannot be empty'
     }
@@ -28,7 +28,7 @@ export default class DataValidation implements IdataValidation {
       this.dataResponse.message = 'Email is not valid'
     }
   }
-  _checkFullname (fullname: string) {
+  private checkFullname (fullname: string) {
     if (validator.isEmpty(fullname)) {
       this.dataResponse.message = 'Fullname cannot be empty'
     }
@@ -45,7 +45,7 @@ export default class DataValidation implements IdataValidation {
       this.dataResponse.message = 'FullName should be filled with: first name + last name'
     }
   }
-  _checkPassword (password: string) {
+  private checkPassword (password: string) {
     const specialCharacters = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/g
     if (validator.isEmpty(password)) {
       this.dataResponse.message = 'Password cannot be empty'
@@ -63,7 +63,7 @@ export default class DataValidation implements IdataValidation {
     this.dataResponse.message = 'password should have minimum 8 charaters'
     }
   }
-  _checkDocument (document: string) {
+  private checkDocument (document: string) {
     if (validator.isEmpty(document)) {
       this.dataResponse.message = 'Document CPF/CPNJ cannot be empty'
     }
@@ -81,7 +81,7 @@ export default class DataValidation implements IdataValidation {
       if (justNumbers.length >= 11) this.dataResponse.message = 'Document should be a valid document'
     }
   }
-  _checkPhone (phone: string) {
+  private checkPhone (phone: string) {
     if (validator.isEmpty(phone)) {
       this.dataResponse.message = 'Phone cannot be empty'
     }
