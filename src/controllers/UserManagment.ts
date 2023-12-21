@@ -1,32 +1,33 @@
 import { Iuser } from '../interfaces/user'
 import DataValidation from '../adapters/DataValidation'
-import { SqlDatabase } from '../adapters/SqlDatabase'
 import { hashingPassword } from '../utils/hashing'
+import { UserRepository } from '../domain/userRepository'
 
 export default class UserManagment {
   dataValidation = new DataValidation()
-  database = new SqlDatabase()
+  userRepository = new UserRepository()
   user: Iuser
   salt: string
   hash: string
-  constructor (user: Iuser) {
+  constructor (user: Iuser, password: string) {
     this.user = user
     this.user.active = true
     this.user.commonUser = this._isCommonUser();
-    [this.salt, this.hash] = hashingPassword(this.user.password).split(':')
+    [this.salt, this.hash] = hashingPassword(password).split(':')
   }
   async new () {
     const { status, message } = this.dataValidation.newUser(this.user)
     if (status == 'Error') return { status, message }
 
-    const clientExists = await this.database.userAlreadyExists(this.user.email)
+    const clientExists = await this.userRepository.get(this.user.email)
+
     if (clientExists) {
-      return { stauts: 'Error', message: 'Email already exists' }
+      return { stauts: 'Error', message: 'Email already registered' }
     }
 
-    const insertedObj = await this.database.insert('User', this.user)
+    const insertedObj = await this.userRepository.save(this.user)
 
-    if (insertedObj.status === 'Success') {
+    if (insertedObj) {
       // salvar log de novo usuário cadastrado
     }
 
