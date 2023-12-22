@@ -1,17 +1,15 @@
 import UserManagment from './controllers/UserManagment'
-import { Iuser } from './interfaces/user'
 import DataValidation from './adapters/DataValidation'
 
 class Index {
   dataValidation = new DataValidation
-  createNewUser (user: Iuser) {
-    const userManagment = new UserManagment(user)
+  createNewUser (user: any) {
+    const userManagment = new UserManagment(user, user.password)
     return userManagment.new()
   }
 }
 
 const index = new Index()
-
 try {
   index.createNewUser({
     fullname: "Felipe Santos",
@@ -23,4 +21,3 @@ try {
 } catch (err) {
   console.error(err)
 }
-
