@@ -4,6 +4,12 @@ import DataValidation from './adapters/DataValidation'
 class Index {
   dataValidation = new DataValidation
   createNewUser (user: any) {
+    let userValidated = this.dataValidation.user(user)
+    if (userValidated.status == 'Error') return userValidated
+    
+    let passwordValidated = this.dataValidation.password(user.password);
+    if (passwordValidated.status == 'Error') return passwordValidated
+
     const userManagment = new UserManagment(user, user.password)
     return userManagment.new()
   }
