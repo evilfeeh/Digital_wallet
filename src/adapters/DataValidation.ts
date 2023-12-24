@@ -8,15 +8,19 @@ export default class DataValidation implements IdataValidation {
     status: 'Success',
     message: ''
   };
-  newUser (user: Iuser, password: string): IdataValidationResponse {
+  user (user: Iuser): IdataValidationResponse {
     this.checkDocument(user.CPF_CNPJ)
     this.checkEmail(user.email)
     this.checkFullname(user.fullname)
     this.checkPhone(user.phone)
-    this.checkPassword(password)
-
+    
     if (this.dataResponse.message) this.dataResponse.status = 'Error'
-
+    
+    return this.dataResponse
+  }
+  password (password: string): IdataValidationResponse {
+    if (this.dataResponse.message) this.dataResponse.status = 'Error'
+    this.checkPassword(password)
     return this.dataResponse
   }
   private checkEmail (email: string) {
