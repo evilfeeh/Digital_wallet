@@ -1,4 +1,4 @@
-import UserManagment from './controllers/UserManagment'
+import UserManagment from './services/UserManagment'
 import DataValidation from './adapters/DataValidation'
 
 class Index {

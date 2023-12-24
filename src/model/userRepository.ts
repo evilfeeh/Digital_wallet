@@ -1,6 +1,6 @@
 import { IUserRepository } from '../interfaces/user-repository'
 import { DataSource } from 'typeorm'
-import { User } from '../model/user'
+import { User } from '../entities/user'
 
 export class UserRepository implements IUserRepository {
   AppDataSource: DataSource
