@@ -6,5 +6,6 @@ export interface IdataValidationResponse {
 }
 
 export interface IdataValidation {
-  newUser: (user: Iuser, password: string) => IdataValidationResponse
+  user: (user: Iuser) => IdataValidationResponse
+  password: (password: string) => IdataValidationResponse
 }
