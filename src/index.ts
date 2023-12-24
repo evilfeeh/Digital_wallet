@@ -1,5 +1,5 @@
 import UserManagment from './services/UserManagment'
-import DataValidation from './adapters/DataValidation'
+import DataValidation from './utils/DataValidation'
 
 class Index {
   dataValidation = new DataValidation

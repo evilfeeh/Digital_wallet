@@ -1,5 +1,5 @@
 import { Iuser } from '../interfaces/user'
-import DataValidation from '../adapters/DataValidation'
+import DataValidation from '../utils/DataValidation'
 import { hashingPassword } from '../utils/hashing'
 import { UserRepository } from '../model/userRepository'
 
