@@ -6,7 +6,7 @@ export function hashingPassword (password: string) {
   return `${salt}:${hashedPassword}`
 }
 
-export function IsPasswordValid (passwordUnderValidation: BinaryLike, correctedHash: { split: (arg0: string) => [string, string]; }) {
+export function IsPasswordValid (passwordUnderValidation: BinaryLike, correctedHash: string) {
   const [salt, key] = correctedHash.split(':');
   const hashedPassword = Buffer.from(scryptSync(passwordUnderValidation, salt, 64).toString('hex'));
   const keyBuffer = Buffer.from(key, 'hex');
