@@ -1,18 +1,12 @@
 import { IUserRepository } from '../interfaces/user-repository'
 import { DataSource } from 'typeorm'
 import { User } from '../entities/user'
+import { postgres } from '../config/databases'
 
 export class UserRepository implements IUserRepository {
   AppDataSource: DataSource
   constructor () {
-    this.AppDataSource = new DataSource({
-      type: 'postgres',
-      host: process.env.DB_HOST,
-      port: 5432,
-      username: process.env.DB_USERNAME,
-      password: process.env.DB_PASSWORD,
-      database: process.env.DB_DATABASE
-  })
+    this.AppDataSource = new DataSource({ ...postgres, type: 'postgres' })
   }
   async get(email: User['email']): Promise<User> {
     return this.AppDataSource
