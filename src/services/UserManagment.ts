@@ -36,4 +36,9 @@ export default class UserManagment {
 
     return { status: 'Success', message: 'User Found', value: user  }
   }
+  async update (email: string, toUpdate: any) {
+    const updated = await this.userRepository.update(email, toUpdate)
+    if (!updated) return { status: 'Error', message: 'Failed to update user' }
+    return { status: 'Success', message: 'User Updated' }
+  }
 }

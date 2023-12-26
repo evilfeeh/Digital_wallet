@@ -30,22 +30,22 @@ export class UserRepository implements IUserRepository {
     .execute()
     return (raw.affected) ? true : false
   }
-  async update(id: User['id'], toUpdate: any): Promise<boolean> {
+  async update(email: User['email'], toUpdate: any): Promise<boolean> {
     const { affected } = await this.AppDataSource
     .createQueryBuilder()
     .update(User)
     .set(toUpdate)
-    .where("id = :id", { id })
+    .where("email = :email", { email })
     .execute()
     return (affected) ? true : false
   }
-  async delete(id: User['id']): Promise<boolean> {
+  async delete(email: User['email']): Promise<boolean> {
     const { affected } = await this.AppDataSource
     .getRepository(User)
     .createQueryBuilder('user')
-    .delete()
-    .from(User)
-    .where("id = :id", { id })
+    .update(User)
+    .set({ active: false })
+    .where("email = :email", { email })
     .execute()
     return (affected) ? true : false
   }
