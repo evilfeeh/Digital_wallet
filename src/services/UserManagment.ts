@@ -1,10 +1,8 @@
 import { Iuser } from '../interfaces/user'
-import DataValidation from '../utils/DataValidation'
 import { hashingPassword, IsPasswordValid } from '../utils/hashing'
 import { UserRepository } from '../model/userRepository'
 
 export default class UserManagment {
-  private readonly dataValidation = new DataValidation()
   private readonly userRepository = new UserRepository()
   user: Iuser
   salt: string
