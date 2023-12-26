@@ -1,6 +1,6 @@
 import { Iuser } from '../interfaces/user'
 import DataValidation from '../utils/DataValidation'
-import { hashingPassword } from '../utils/hashing'
+import { hashingPassword, IsPasswordValid } from '../utils/hashing'
 import { UserRepository } from '../model/userRepository'
 
 export default class UserManagment {
@@ -14,7 +14,7 @@ export default class UserManagment {
     this.user = user
     this.user.active = true
     this.user.commonUser = this.isCommonUser();
-    [this.salt, this.hash] = hashingPassword(password).split(':')
+    this.user.hashPassword = hashingPassword(password)
   }
   async new () {
     const clientExists = await this.userRepository.get(this.user.email)
@@ -28,5 +28,14 @@ export default class UserManagment {
   private isCommonUser () {
     const document = this.user.CPF_CNPJ.replace(/.\/-/g, '');
     return document.length === 11 ? true : false;
+  }
+  async get () {
+    const user = await this.userRepository.get(this.user.email)
+    if (!user) return { status: 'Error', message: 'User or password invalid' }
+
+    const isPasswordValid = IsPasswordValid(user.hashPassword, this.user.hashPassword)
+    if (!isPasswordValid) return { status: 'Error', message: 'Invalid Password' }
+
+    return { status: 'Success', message: 'User Found', value: user  }
   }
 }
