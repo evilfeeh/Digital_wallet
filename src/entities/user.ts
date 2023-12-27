@@ -3,27 +3,27 @@ import { Entity, PrimaryGeneratedColumn, Column } from "typeorm"
 
 @Entity()
 export class User implements Iuser{
-  @PrimaryGeneratedColumn()
+  @PrimaryGeneratedColumn("uuid")
   id: string
 
-  @Column()
+  @Column("varchar", { length: 50 })
   fullname: string
 
-  @Column()
+  @Column("varchar", { length: 14, unique: true })
   CPF_CNPJ: string
 
-  @Column()
+  @Column("varchar", { length: 50, unique: true })
   email: string
 
-  @Column()
+  @Column("varchar", { length: 100 })
   hashPassword: string
 
-  @Column()
-  commonUser?: boolean | undefined
+  @Column("boolean")
+  commonUser: boolean
 
-  @Column()
-  active?: boolean | undefined
+  @Column("boolean")
+  active: boolean
 
-  @Column()
+  @Column("varchar", { length: 11 })
   phone: string
 }
