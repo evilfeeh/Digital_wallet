@@ -10,6 +10,6 @@ export class Wallet implements Iwallet{
   @OneToOne(() => User, (user) => user.id)
   user_id: User
 
-  @Column("float")
+  @Column("float", { precision: 10, scale: 2 })
   debit_amount: string
 } 
