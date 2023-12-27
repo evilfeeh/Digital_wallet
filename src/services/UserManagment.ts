@@ -39,6 +39,13 @@ export default class UserManagment {
   async update (email: string, toUpdate: any) {
     const updated = await this.userRepository.update(email, toUpdate)
     if (!updated) return { status: 'Error', message: 'Failed to update user' }
+
     return { status: 'Success', message: 'User Updated' }
+  }
+  async delete (email: string) {
+    const deleted = await this.userRepository.delete(email)
+    if (!deleted) return { status: 'Error', message: 'Failed to delete user' }
+    
+    return { status: 'Success', message: 'User Deleted' }
   }
 }
