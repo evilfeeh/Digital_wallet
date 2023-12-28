@@ -8,8 +8,8 @@ export interface Iuser {
   CPF_CNPJ: string;
   email: string;
   hashPassword: string;
-  commonUser?: boolean;
-  active?: boolean;
+  commonUser: boolean;
+  active: boolean;
   phone: string;
 }
 
