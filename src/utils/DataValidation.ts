@@ -23,6 +23,19 @@ export default class DataValidation implements IdataValidation {
     this.checkPassword(password)
     return this.dataResponse
   }
+
+  cash (amount: number) {
+    const stringifyAmount = amount.toString()
+    if (validator.isEmpty(stringifyAmount)) {
+      this.dataResponse.message = 'Amount cannot be empty'
+    }
+
+    if (!validator.isCurrency(stringifyAmount)) {
+      this.dataResponse.message = 'Amount is not valid'
+    }
+    
+    return this.dataResponse
+  }
   private checkEmail (email: string) {
     if (validator.isEmpty(email)) {
       this.dataResponse.message = 'Email cannot be empty'
