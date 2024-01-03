@@ -8,8 +8,8 @@ export class Wallet implements Iwallet{
   id: string
 
   @OneToOne(() => User, (user) => user.id)
-  user_id: User
+  user_id: User['id']
 
   @Column("float", { precision: 10, scale: 2 })
-  debit_amount: string
+  debit_amount: number
 } 
