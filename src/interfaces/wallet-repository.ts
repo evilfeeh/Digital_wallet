@@ -1,8 +1,10 @@
 import { Iwallet } from '../interfaces/wallet'
 
 export interface IWalletRepository {
-  get: (walletId: Iwallet['id']) => Promise<Iwallet>;
+  get: (walletId: Iwallet['user_id']) => Promise<Iwallet>;
   save: (wallet: Iwallet) => Promise<boolean>;
-  update: (wallet: Iwallet, cashAmount: number) => Promise<boolean>;
-  delete: (walletId: Iwallet['id']) => Promise<boolean>;
+  consult: () => Promise<number>;
+  deposit: (amount: number) => Promise<boolean>;
+  withdraw: (amount: number) => Promise<boolean>;
+  transfer: (amount: string) => Promise<boolean>;
 }
