@@ -1,0 +1,36 @@
+{
+  "name": "digital-wallet",
+  "version": "0.0.1",
+  "description": "digital wallet just for knowledge",
+  "main": "./src/index.ts",
+  "scripts": {
+    "start": "npx ts-node ./src/index.ts",
+    "start:dev": "nodemon ./src/index.ts",
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/evilfeeh/digital-wallet.git"
+  },
+  "keywords": [
+    "digital",
+    "wallet"
+  ],
+  "author": "Felipe Santos",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/evilfeeh/digital-wallet/issues"
+  },
+  "homepage": "https://github.com/evilfeeh/digital-wallet#readme",
+  "devDependencies": {
+    "@types/node": "^20.10.5",
+    "@types/validator": "^13.11.7",
+    "nodemon": "^3.0.2"
+  },
+  "dependencies": {
+    "mongodb": "^5.9.2",
+    "typeorm": "^0.3.17",
+    "validator": "^13.11.0",
+    "winston": "^3.11.0"
+  }
+}
