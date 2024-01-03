@@ -6,7 +6,8 @@
   "scripts": {
     "start": "npx ts-node ./src/index.ts",
     "start:dev": "nodemon ./src/index.ts",
-    "test": "jest"
+    "test": "jest",
+    "typeorm": "typeorm-ts-node-esm"
   },
   "repository": {
     "type": "git",
