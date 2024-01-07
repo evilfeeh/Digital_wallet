@@ -8,12 +8,12 @@ class Index {
   createNewUser (user: any) {
     let userValidated = this.dataValidation.user(user)
     if (userValidated.status == 'Error') return userValidated
-    
+
     let passwordValidated = this.dataValidation.password(user.password);
     if (passwordValidated.status == 'Error') return passwordValidated
 
     const userManagment = new UserManagment(user, user.password)
-    return userManagment.new()
+    return userManagment
   }
 
   async addCashToUser (payer: any, payee: any, amount: number) {
