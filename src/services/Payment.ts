@@ -1,7 +1,7 @@
 import { OrderRepository } from '../model/orderRepository'
 import { PayInRepository } from '../model/payinRepository'
-import UserManagment from './UserManagment'
-import { WalletManagment } from './WalletManagment'
+import { User } from './User'
+import { Wallet } from './Wallet'
 
 interface IOrder {
   payer: string;
@@ -17,7 +17,7 @@ export class payment {
   payInRepository: PayInRepository
   orderRepository: OrderRepository
   constructor (order: IOrder) {
-    this.user = new UserManagment(order.payer, '')
+    this.user = new User(order.payer, '')
     this.order = order
   }
   private async authorizator (): Promise<boolean> {
@@ -36,7 +36,7 @@ export class payment {
     }
 
     await this.orderRepository.save(this.order) // Middle status = BANK_AUTHORIZATION_SUCCESS
-    const payerWallet = new WalletManagment(order.payer)
+    const payerWallet = new Wallet(order.payer)
     // validate with user has the amount money needled
     // extract money from buyers wallet
     // add money to seller's wallet
