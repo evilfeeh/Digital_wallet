@@ -25,4 +25,14 @@ export class WalletRepository implements IWalletRepository{
     
     return (raw.affected) ? true : false
   }
+  async deposit (amount: number): Promise<boolean> {
+    const { raw } = await this.AppDataSource
+    .createQueryBuilder()
+    .insert()
+    .into(Wallet)
+    .values({ debit_amount: amount })
+    .execute()
+    
+    return (raw.affected) ? true : false
+  }
 }
