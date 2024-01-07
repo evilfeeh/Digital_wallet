@@ -6,23 +6,21 @@ export class Wallet {
   walletRepository = new WalletRepository
   user: Iuser
   wallet: Iwallet
-  constructor(user: Iuser) {
-    this.user = user
-  }
-  async new (): Promise<{status: string, message: string}>  {
-    this.wallet.debit_amount = 0;
-    this.wallet.user_id = this.user.id
+  async new (user_id: Iuser["id"]): Promise<boolean>  {
+    this.wallet.debit_amount = 0
+    this.wallet.user_id = user_id
+
     const wallet = await this.walletRepository.save(this.wallet)
-    if (!wallet) return { status: 'Error', message: 'Can\'t create wallet' }
+    if (!wallet) return false
 
-    return { status: 'Success', message: 'Wallet created successfully' }
+    return true
   }
-  async get (): Promise<Iwallet> {
-    return this.walletRepository.get(this.user.id)
+  async get (user_id: Iuser["id"]): Promise<Iwallet> {
+    return this.walletRepository.get(user_id)
   }
-
-  async consult (): Promise<number> { return 0 }
-  async deposit (amount: number): Promise<boolean> { return true }
-  async withdraw (amount: number): Promise<boolean> { return true }
-  async transfer (amount: number): Promise<boolean> { return true }
+  async deposit (amount: number, user_id: Iwallet['user_id']): Promise<boolean> {
+    const wasDeposited = await this.walletRepository.deposit(amount, user_id)
+    if (!wasDeposited) return false
+    return true
+  }
 }
