@@ -13,8 +13,9 @@ export default class UserManagment {
     this.user.active = true
     this.user.commonUser = this.isCommonUser();
     this.user.hashPassword = hashingPassword(password)
+    this.create()
   }
-  async new () {
+  private async create () {
     const clientExists = await this.userRepository.get(this.user.email)
     if (clientExists) return { stauts: 'Error', message: 'Email already registered' }
 
@@ -45,7 +46,7 @@ export default class UserManagment {
   async delete (email: string) {
     const deleted = await this.userRepository.delete(email)
     if (!deleted) return { status: 'Error', message: 'Failed to delete user' }
-    
+
     return { status: 'Success', message: 'User Deleted' }
   }
 }
