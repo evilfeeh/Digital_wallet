@@ -1,4 +1,4 @@
-import UserManagment from './services/UserManagment'
+import UserManagment from './services/User'
 import DataValidation from './utils/DataValidation'
 import { UserRepository } from './model/userRepository'
 

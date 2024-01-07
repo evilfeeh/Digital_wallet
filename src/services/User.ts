@@ -2,7 +2,7 @@ import { Iuser } from '../interfaces/user'
 import { hashingPassword, IsPasswordValid } from '../utils/hashing'
 import { UserRepository } from '../model/userRepository'
 
-export default class UserManagment {
+export default class User {
   private readonly userRepository = new UserRepository()
   user: Iuser
   salt: string

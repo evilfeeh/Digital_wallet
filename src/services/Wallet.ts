@@ -2,7 +2,7 @@ import { Iwallet } from '../interfaces/wallet'
 import { Iuser } from '../interfaces/user'
 import { WalletRepository } from '../model/walletRepository'
 
-export class WalletManagment {
+export class Wallet {
   walletRepository = new WalletRepository
   user: Iuser
   wallet: Iwallet

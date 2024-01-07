@@ -1,3 +1,3 @@
-export * from './UserManagment'
+export * from './User'
 export * from './TransacionalManagment'
-export * from './WalletManagment'
+export * from './Wallet'
