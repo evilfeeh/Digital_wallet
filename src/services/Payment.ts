@@ -1,11 +1,9 @@
 import { OrderRepository } from '../model/orderRepository'
 import { PayInRepository } from '../model/payinRepository'
-import { User } from './User'
-import { Wallet } from './Wallet'
-
+import { buildUser } from '../utils/buildUser';
 interface IOrder {
-  payer: string;
-  seller: string;
+  payer_id: string;
+  seller_id: string;
   payment_amount: number;
   id: string;
   date: string;
@@ -17,7 +15,6 @@ export class payment {
   payInRepository: PayInRepository
   orderRepository: OrderRepository
   constructor (order: IOrder) {
-    this.user = new User(order.payer, '')
     this.order = order
   }
   private async authorizator (): Promise<boolean> {
@@ -25,22 +22,32 @@ export class payment {
     return false
   }
   async start () {
-    Promise.all([
-      this.payInRepository.register(this.order),
-      this.orderRepository.save(this.order) // init status = OPEN_PAYMENT_ORDER
-    ])
+    this.payInRepository.register(this.order),
+    this.orderRepository.save(this.order) // init status = OPEN_PAYMENT_ORDER
 
-    const isAuthorized = await this.authorizator()
-    if (!isAuthorized) {
-      // authorization recused
+    try {
+      const isAuthorized = await this.authorizator()
+      if (!isAuthorized) {
+        // authorization recused
+      }
+
+      const payer = await buildUser(this.order.payer_id)
+      const seller = await buildUser(this.order.seller_id)
+
+      if (payer.debit_amount < this.order.payment_amount) {
+        // debit recused
+      }
+      this.orderRepository.save(this.order) // Middle status = BANK_AUTHORIZATION_SUCCESS
+
+      this.orderRepository.save(this.order) // Middle status = STARTING_PAYER_WITHDRAW
+      await payer.withdraw()
+
+      this.orderRepository.save(this.order) // Middle status = STARTING_DEPOSIT
+      await seller.deposit()
+
+      this.orderRepository.save(this.order) // Final status = TRANSACTION DONE SUCCESSFULLY
+    } catch (error) {
+      await this.orderRepository.save(this.order) // Final status = TRANSACTION DONE FAILED
     }
-
-    await this.orderRepository.save(this.order) // Middle status = BANK_AUTHORIZATION_SUCCESS
-    const payerWallet = new Wallet(order.payer)
-    // validate with user has the amount money needled
-    // extract money from buyers wallet
-    // add money to seller's wallet
-    // update order register
-    // finish process
   }
 }
