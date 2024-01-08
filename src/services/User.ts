@@ -5,20 +5,17 @@ export class User {
   private readonly userRepository = new UserRepository()
   user: Iuser
 
-  async create (user: Iuser) {
-    user.active = true
-    user.commonUser = this.isCommonUser(user.CPF_CNPJ);
+  constructor () {
+    this.user.active = true
+  }
+
+  async create (user: Iuser): Promise<boolean> {
     const clientExists = await this.userRepository.get(user.email)
     if (clientExists) return false
 
     const insertedObj = await this.userRepository.save(user)
     if (!insertedObj) return false
     return true
-  }
-
-  private isCommonUser (cpfcnpj: string) {
-    const document = cpfcnpj.replace(/.\/-/g, '');
-    return document.length === 11 ? true : false;
   }
 
   async get (email: string): Promise<Iuser> {
