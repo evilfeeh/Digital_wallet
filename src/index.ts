@@ -1,44 +1,65 @@
-import UserManagment from './services/User'
+import { User } from './services/User'
 import DataValidation from './utils/DataValidation'
 import { UserRepository } from './model/userRepository'
+import { hashingPassword } from './utils/hashing'
 
-class Index {
+
+class Creation { // POST /v1/user
   dataValidation = new DataValidation
-  userRepository = new UserRepository
-  createNewUser (user: any) {
-    let userValidated = this.dataValidation.user(user)
+  async new (candidate: any): Promise<{ status: string, message: string, value?: any }> {
+    let userValidated = this.dataValidation.user(candidate)
     if (userValidated.status == 'Error') return userValidated
 
-    let passwordValidated = this.dataValidation.password(user.password);
+    let passwordValidated = this.dataValidation.password(candidate.password);
     if (passwordValidated.status == 'Error') return passwordValidated
 
-    const userManagment = new UserManagment(user, user.password)
-    return userManagment
+    let user = {
+      ...candidate,
+      hash: hashingPassword(candidate.password),
+      common_user:(candidate.type === 'common') ? true : false
+    }
+
+    const userCreated = await new User().create(user)
+
+    return {status: 'Success', message: "User created successfully", value: userCreated }
   }
+}
 
-  async addCashToUser (payer: any, payee: any, amount: number) {
-    const payerUser = await this.userRepository.get(payer)
-    const payeeUser = await this.userRepository.get(payee)
+class WalletManagment {
+  dataValidation = new DataValidation
+  userRepository = new UserRepository
 
-    let payerValidated = this.dataValidation.user(payerUser)
+  async addCash (order: any) {
+    const payer = await this.userRepository.get(order.payer)
+    const seller = await this.userRepository.get(order.seller)
+
+    let payerValidated = this.dataValidation.user(payer)
     if (payerValidated.status == 'Error') return payerValidated
 
-    let payeeValidated = this.dataValidation.user(payeeUser)
+    let payeeValidated = this.dataValidation.user(seller)
     if (payeeValidated.status == 'Error') return payeeValidated
 
-    let cashValidated = this.dataValidation.cash(amount)
+    let cashValidated = this.dataValidation.cash(order.payment_amount)
     if (cashValidated.status == 'Error') return cashValidated
   }
 }
 
-const index = new Index()
+const creation = new Creation()
+const payment = new WalletManagment()
 try {
-  index.createNewUser({
+  creation.new({
     fullname: "Felipe Santos",
     CPF_CNPJ: "425.609.398-27",
-    email: "felipe@gmail.com",
     password: "SENHAsenha#123",
-    phone: '11984686451'
+    email: "felipe@gmail.com",
+    phone: '11984686451',
+    type: 'common' // seller
+  })
+
+  payment.addCash({
+    payer: 1,
+    seller: 2,
+    payment_amount: 33.5
   })
 } catch (err) {
   console.error(err)
