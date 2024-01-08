@@ -16,7 +16,7 @@ export class User implements Iuser{
   email: string
 
   @Column("varchar", { length: 100 })
-  hashPassword: string
+  hash: string
 
   @Column("boolean")
   commonUser: boolean

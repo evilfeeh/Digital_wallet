@@ -4,8 +4,6 @@ import { UserRepository } from '../model/userRepository'
 export class User {
   private readonly userRepository = new UserRepository()
   user: Iuser
-  salt: string
-  hash: string
 
   async create (user: Iuser) {
     user.active = true
@@ -23,10 +21,8 @@ export class User {
     return document.length === 11 ? true : false;
   }
 
-  async get (email: string) {
-    const user = await this.userRepository.get(email)
-    if (!user) return false
-    return user
+  async get (email: string): Promise<Iuser> {
+    return await this.userRepository.get(email)
   }
 
   async update (email: string, toUpdate: any) {
