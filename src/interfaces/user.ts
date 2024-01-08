@@ -7,7 +7,7 @@ export interface Iuser {
   fullname: string;
   CPF_CNPJ: string;
   email: string;
-  hashPassword: string;
+  hash: string;
   commonUser: boolean;
   active: boolean;
   phone: string;
