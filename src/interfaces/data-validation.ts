@@ -6,6 +6,11 @@ export interface IdataValidationResponse {
 }
 
 export interface IdataValidation {
-  user: (user: Iuser) => IdataValidationResponse
   password: (password: string) => IdataValidationResponse
+  cash: (amount: number) => {status: string, message: string}
+  checkEmail: (email: string) => {status: string, message: string}
+  checkFullname: (fullname: string) => {status: string, message: string}
+  checkPassword: (password: string) => {status: string, message: string}
+  checkDocument: (document: string) => {status: string, message: string}
+  checkPhone: (phone: string) => {status: string, message: string}
 }
