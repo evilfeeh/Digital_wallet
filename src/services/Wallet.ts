@@ -15,11 +15,27 @@ export class Wallet {
 
     return true
   }
+
   async get (user_id: Iuser["id"]): Promise<Iwallet> {
     return this.walletRepository.get(user_id)
   }
+
   async deposit (amount: number, user_id: Iwallet['user_id']): Promise<boolean> {
-    const wasDeposited = await this.walletRepository.deposit(amount, user_id)
+    const wallet = await this.walletRepository.get(user_id)
+
+    const newAmount = (wallet.debit_amount + amount)
+    const wasDeposited = await this.walletRepository.deposit(newAmount, wallet.id)
+
+    if (!wasDeposited) return false
+    return true
+  }
+
+  async withdraw (amount: number, user_id: Iwallet['user_id']): Promise<boolean> {
+    const wallet = await this.walletRepository.get(user_id)
+
+    const newAmount = (wallet.debit_amount - amount)
+    const wasDeposited = await this.walletRepository.deposit(newAmount, wallet.id)
+
     if (!wasDeposited) return false
     return true
   }
