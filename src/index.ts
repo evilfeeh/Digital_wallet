@@ -1,27 +1,23 @@
-import { User } from './services/User'
-import DataValidation from './utils/DataValidation'
 import { UserRepository } from './model/userRepository'
-import { hashingPassword } from './utils/hashing'
-
+import { UserBuilder } from './utils/UserBuilder'
 
 class Creation { // POST /v1/user
-  dataValidation = new DataValidation
+
+  userBuilder = new UserBuilder
   async new (candidate: any): Promise<{ status: string, message: string, value?: any }> {
-    let userValidated = this.dataValidation.user(candidate)
-    if (userValidated.status == 'Error') return userValidated
-
-    let passwordValidated = this.dataValidation.password(candidate.password);
-    if (passwordValidated.status == 'Error') return passwordValidated
-
-    let user = {
-      ...candidate,
-      hash: hashingPassword(candidate.password),
-      common_user:(candidate.type === 'common') ? true : false
+    try {
+      const user = this.userBuilder
+      .fullname(candidate.fullname)
+      .commonUser(candidate.commonUser)
+      .cpfCnpj(candidate.CPF_CNPJ)
+      .email(candidate.email)
+      .phone(candidate.phone)
+      .password(candidate.password)
+      .build()
+      return {status: 'Success', message: "User created successfully", value: user }
+    } catch (error) {
+      return {status: 'Error', message: "User created error", value: error.message }
     }
-
-    const userCreated = await new User().create(user)
-
-    return {status: 'Success', message: "User created successfully", value: userCreated }
   }
 }
 

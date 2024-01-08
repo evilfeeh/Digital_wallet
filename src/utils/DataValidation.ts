@@ -1,23 +1,11 @@
 import validator from 'validator';
 import { IdataValidation, IdataValidationResponse } from '../interfaces/data-validation'
-import { Iuser } from '../interfaces/user'
 
-
-export default class DataValidation implements IdataValidation {
+export class DataValidation implements IdataValidation {
   dataResponse: IdataValidationResponse = {
     status: 'Success',
     message: ''
   };
-  user (user: Iuser): IdataValidationResponse {
-    this.checkDocument(user.CPF_CNPJ)
-    this.checkEmail(user.email)
-    this.checkFullname(user.fullname)
-    this.checkPhone(user.phone)
-    
-    if (this.dataResponse.message) this.dataResponse.status = 'Error'
-    
-    return this.dataResponse
-  }
   password (password: string): IdataValidationResponse {
     if (this.dataResponse.message) this.dataResponse.status = 'Error'
     this.checkPassword(password)
@@ -33,10 +21,10 @@ export default class DataValidation implements IdataValidation {
     if (!validator.isCurrency(stringifyAmount)) {
       this.dataResponse.message = 'Amount is not valid'
     }
-    
+
     return this.dataResponse
   }
-  private checkEmail (email: string) {
+  checkEmail (email: string) {
     if (validator.isEmpty(email)) {
       this.dataResponse.message = 'Email cannot be empty'
     }
@@ -44,8 +32,9 @@ export default class DataValidation implements IdataValidation {
     if (!validator.isEmail(email)) {
       this.dataResponse.message = 'Email is not valid'
     }
+    return this.dataResponse
   }
-  private checkFullname (fullname: string) {
+  checkFullname (fullname: string) {
     if (validator.isEmpty(fullname)) {
       this.dataResponse.message = 'Fullname cannot be empty'
     }
@@ -61,8 +50,9 @@ export default class DataValidation implements IdataValidation {
     if (!validator.isLength(fullname, { min: 6, max: 50 })) {
       this.dataResponse.message = 'FullName should be filled with: first name + last name'
     }
+    return this.dataResponse
   }
-  private checkPassword (password: string) {
+  checkPassword (password: string) {
     const specialCharacters = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/g
     if (validator.isEmpty(password)) {
       this.dataResponse.message = 'Password cannot be empty'
@@ -79,8 +69,9 @@ export default class DataValidation implements IdataValidation {
     if (!validator.isLength(password, { min: 8, max: undefined })) {
     this.dataResponse.message = 'password should have minimum 8 charaters'
     }
+    return this.dataResponse
   }
-  private checkDocument (document: string) {
+  checkDocument (document: string) {
     if (validator.isEmpty(document)) {
       this.dataResponse.message = 'Document CPF/CPNJ cannot be empty'
     }
@@ -97,8 +88,9 @@ export default class DataValidation implements IdataValidation {
       const justNumbers = document.replace(/[.\/-]/g, '')
       if (justNumbers.length >= 11) this.dataResponse.message = 'Document should be a valid document'
     }
+    return this.dataResponse
   }
-  private checkPhone (phone: string) {
+  checkPhone (phone: string) {
     if (validator.isEmpty(phone)) {
       this.dataResponse.message = 'Phone cannot be empty'
     }
@@ -110,5 +102,6 @@ export default class DataValidation implements IdataValidation {
     if (phone.length != 11) {
       this.dataResponse.message = 'Phone should be valid'
     }
+    return this.dataResponse
   }
 }
