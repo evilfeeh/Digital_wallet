@@ -22,17 +22,17 @@ export class WalletRepository implements IWalletRepository{
     .into(Wallet)
     .values(wallet)
     .execute()
-    
+
     return (raw.affected) ? true : false
   }
-  async deposit (amount: number, user_id: Wallet['user_id']): Promise<boolean> {
+  async deposit (amount: number, id: Wallet['id']): Promise<boolean> {
     const { raw } = await this.AppDataSource
     .createQueryBuilder()
-    .insert()
-    .into(user_id)
-    .values({ debit_amount: amount })
+    .update(Wallet)
+    .set({ debit_amount: amount })
+    .where("id = :id", { id })
     .execute()
-    
+
     return (raw.affected) ? true : false
   }
 }
