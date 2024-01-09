@@ -1,16 +1,14 @@
-import { Iuser } from './user'
-
 export interface IdataValidationResponse {
   status: string;
   message: string;
+  valid: boolean
 }
 
 export interface IdataValidation {
-  password: (password: string) => IdataValidationResponse
-  cash: (amount: number) => {status: string, message: string}
-  checkEmail: (email: string) => {status: string, message: string}
-  checkFullname: (fullname: string) => {status: string, message: string}
-  checkPassword: (password: string) => {status: string, message: string}
-  checkDocument: (document: string) => {status: string, message: string}
-  checkPhone: (phone: string) => {status: string, message: string}
+  cash: (amount: number) => IdataValidationResponse
+  checkEmail: (email: string) => IdataValidationResponse
+  checkFullname: (fullname: string) => IdataValidationResponse
+  checkPassword: (password: string) => IdataValidationResponse
+  checkDocument: (document: string) => IdataValidationResponse
+  checkPhone: (phone: string) => IdataValidationResponse
 }
