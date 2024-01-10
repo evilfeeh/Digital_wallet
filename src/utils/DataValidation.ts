@@ -8,6 +8,17 @@ export class DataValidation implements IdataValidation {
     valid: false
   };
 
+  user (user: any) {
+    this.checkDocument(user.CPF_CNPJ)
+    this.checkEmail(user.email)
+    this.checkFullname(user.fullname)
+    this.checkPassword(user.password)
+    this.checkDocument(user.document)
+    this.checkPhone(user.phone)
+
+    return this.dataResponse
+  }
+
   cash (amount: number) {
     const stringifyAmount = amount.toString()
     if (validator.isEmpty(stringifyAmount)) this.dataResponse.message = 'Amount cannot be empty'
