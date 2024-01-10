@@ -1,8 +1,7 @@
-import { UserRepository } from './model/userRepository'
 import { UserBuilder } from './utils/UserBuilder'
+import { Payment } from './services'
 
 class Creation { // POST /v1/user
-
   userBuilder = new UserBuilder
   async new (candidate: any): Promise<{ status: string, message: string, value?: any }> {
     try {
@@ -14,34 +13,23 @@ class Creation { // POST /v1/user
       .phone(candidate.phone)
       .password(candidate.password)
       .build()
-      return {status: 'Success', message: "User created successfully", value: user }
+
+      return { status: 'Success', message: "User created successfully", value: user }
     } catch (error) {
-      return {status: 'Error', message: "User created error", value: error.message }
+      return { status: 'Error', message: "User created error", value: error.message }
     }
   }
 }
 
-class WalletManagment {
-  dataValidation = new DataValidation
-  userRepository = new UserRepository
-
-  async addCash (order: any) {
-    const payer = await this.userRepository.get(order.payer)
-    const seller = await this.userRepository.get(order.seller)
-
-    let payerValidated = this.dataValidation.user(payer)
-    if (payerValidated.status == 'Error') return payerValidated
-
-    let payeeValidated = this.dataValidation.user(seller)
-    if (payeeValidated.status == 'Error') return payeeValidated
-
-    let cashValidated = this.dataValidation.cash(order.payment_amount)
-    if (cashValidated.status == 'Error') return cashValidated
-  }
+const order = {
+  payer_id: 1,
+  seller_id: 1,
+  payment_amount: 25.5
 }
 
 const creation = new Creation()
-const payment = new WalletManagment()
+const payment = new Payment(order)
+
 try {
   creation.new({
     fullname: "Felipe Santos",
@@ -52,11 +40,8 @@ try {
     type: 'common' // seller
   })
 
-  payment.addCash({
-    payer: 1,
-    seller: 2,
-    payment_amount: 33.5
-  })
+  const result = (async () => { await payment.start() })()
+
 } catch (err) {
   console.error(err)
 }

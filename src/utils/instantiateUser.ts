@@ -1,6 +1,6 @@
 import { User, Wallet } from '../services'
 
-export async function buildUser (user_id: string) {
+export async function instantiateUser (user_id: string) {
   const user = await new User().get(user_id)
   const wallet = await new Wallet().get(user_id)
   const debit_amount = wallet.debit_amount

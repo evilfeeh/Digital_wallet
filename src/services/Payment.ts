@@ -1,6 +1,7 @@
 import { OrderRepository } from '../model/orderRepository'
 import { PayInRepository } from '../model/payinRepository'
-import { buildUser } from '../utils/buildUser';
+import { instantiateUser } from '../utils/instantiateUser'
+
 interface IOrder {
   payer_id: string;
   seller_id: string;
@@ -10,11 +11,11 @@ interface IOrder {
   status: string;
 }
 
-export class payment {
-  order: IOrder
-  payInRepository: PayInRepository
-  orderRepository: OrderRepository
-  constructor (order: IOrder) {
+export class Payment {
+  private readonly order: IOrder
+  private readonly payInRepository: PayInRepository
+  private readonly orderRepository: OrderRepository
+  constructor (order: any) {
     this.order = order
   }
   private async authorizator (): Promise<boolean> {
@@ -31,8 +32,8 @@ export class payment {
         // authorization recused
       }
 
-      const payer = await buildUser(this.order.payer_id)
-      const seller = await buildUser(this.order.seller_id)
+      const payer = await instantiateUser(this.order.payer_id)
+      const seller = await instantiateUser(this.order.seller_id)
 
       if (payer.debit_amount < this.order.payment_amount) {
         // debit recused
@@ -46,8 +47,10 @@ export class payment {
       await seller.deposit()
 
       this.orderRepository.save(this.order) // Final status = TRANSACTION DONE SUCCESSFULLY
+      return { status: 'Success', message: 'Order Complete Successfully' }
     } catch (error) {
       await this.orderRepository.save(this.order) // Final status = TRANSACTION DONE FAILED
+      return { status: 'Error', message: 'Order Failed' }
     }
   }
 }
