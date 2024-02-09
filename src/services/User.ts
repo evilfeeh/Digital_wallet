@@ -5,11 +5,8 @@ export class User {
   private readonly userRepository = new UserRepository()
   user: Iuser
 
-  constructor () {
-    this.user.active = true
-  }
-
   async create (user: Iuser): Promise<boolean> {
+    this.user.active = true
     const clientExists = await this.userRepository.get(user.email)
     if (clientExists) return false
 
