@@ -1,3 +1,3 @@
 export class OrderRepository {
-  async save (order) {}
+  async save (order, status: string) {}
 }
