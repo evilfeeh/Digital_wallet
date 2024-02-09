@@ -1,5 +1,4 @@
-import { OrderRepository } from '../model/orderRepository'
-import { PayInRepository } from '../model/payinRepository'
+import { OrderRepository, PayInRepository } from '../model'
 import { instantiateUser } from '../utils/instantiateUser'
 
 interface IOrder {
@@ -13,43 +12,45 @@ interface IOrder {
 
 export class Payment {
   private readonly order: IOrder
-  private readonly payInRepository: PayInRepository
-  private readonly orderRepository: OrderRepository
+  private readonly payInRepository = new PayInRepository
+  private readonly orderRepository = new OrderRepository
   constructor (order: any) {
     this.order = order
   }
+
   private async authorizator (): Promise<boolean> {
-    // calls AES services to approve order
-    return false
+    return true
   }
+
   async start () {
     this.payInRepository.register(this.order),
-    this.orderRepository.save(this.order) // init status = OPEN_PAYMENT_ORDER
+    this.orderRepository.save(this.order, 'OPEN_PAYMENT_ORDER') 
 
     try {
       const isAuthorized = await this.authorizator()
       if (!isAuthorized) {
-        // authorization recused
+        this.orderRepository.save(this.order, 'BANK_UNATHORIZED') 
+        return { status: 'Failed', message: 'Insuficient debit amount' }
       }
 
       const payer = await instantiateUser(this.order.payer_id)
       const seller = await instantiateUser(this.order.seller_id)
 
       if (payer.debit_amount < this.order.payment_amount) {
-        // debit recused
+        this.orderRepository.save(this.order, 'BANK_AUTHORIZATION_FAILED_NO_DEBIT') 
+        return { status: 'Failed', message: 'Insuficient debit amount' }
       }
-      this.orderRepository.save(this.order) // Middle status = BANK_AUTHORIZATION_SUCCESS
-
-      this.orderRepository.save(this.order) // Middle status = STARTING_PAYER_WITHDRAW
+      this.orderRepository.save(this.order, 'BANK_AUTHORIZATION_SUCCESS')
+      this.orderRepository.save(this.order, 'STARTING_PAYER_WITHDRAW')
       await payer.withdraw()
 
-      this.orderRepository.save(this.order) // Middle status = STARTING_DEPOSIT
+      this.orderRepository.save(this.order, 'STARTING_DEPOSIT') 
       await seller.deposit()
 
-      this.orderRepository.save(this.order) // Final status = TRANSACTION DONE SUCCESSFULLY
+      this.orderRepository.save(this.order, 'TRANSACTION DONE SUCCESSFULLY') 
       return { status: 'Success', message: 'Order Complete Successfully' }
     } catch (error) {
-      await this.orderRepository.save(this.order) // Final status = TRANSACTION DONE FAILED
+      await this.orderRepository.save(this.order, 'TRANSACTION DONE FAILED') 
       return { status: 'Error', message: 'Order Failed' }
     }
   }
