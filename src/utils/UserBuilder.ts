@@ -4,18 +4,9 @@ import { hashingPassword, DataValidation } from './'
 
 export class UserBuilder {
   user: Iuser
-  userManagment = new User()
-  walletManagment = new Wallet()
-  dataValidation = new DataValidation
-  constructor() {
-    this.user.fullname = ''
-    this.user.CPF_CNPJ = ''
-    this.user.hash = ''
-    this.user.email = ''
-    this.user.phone = ''
-    this.user.commonUser = false
-    this.user.active = true
-  }
+  private readonly userManagment = new User()
+  private readonly walletManagment = new Wallet()
+  private readonly dataValidation = new DataValidation
 
   fullname(name: string) {
     const { status, message } = this.dataValidation.checkFullname(name)
