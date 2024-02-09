@@ -30,6 +30,8 @@
   },
   "dependencies": {
     "mongodb": "^5.9.2",
+    "pg": "^8.11.3",
+    "ts-node": "^10.9.2",
     "typeorm": "^0.3.17",
     "validator": "^13.11.0",
     "winston": "^3.11.0"
