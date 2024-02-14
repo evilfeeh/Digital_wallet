@@ -6,6 +6,6 @@ COPY . .
 
 RUN npm i -y
 
-EXPOSE ${APP_PORT}
+EXPOSE ${PORT}
 
 CMD ["npm", "run", "start"]

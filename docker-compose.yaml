@@ -6,9 +6,9 @@ services:
     build: .
     env_file: .env
     ports:
-      - ${APP_PORT}:${APP_PORT}
+      - ${PORT}:${PORT}
     volumes:
-      - .:/digital_wallet
+      - ./src:/digital_wallet
     depends_on:
       - postgres
       - mongo
