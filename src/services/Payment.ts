@@ -51,7 +51,7 @@ export class Payment {
       return { status: 'Success', message: 'Order Complete Successfully' }
     } catch (error) {
       await this.orderRepository.save(this.order, 'TRANSACTION DONE FAILED') 
-      return { status: 'Error', message: 'Order Failed' }
+      throw new Error('Order Failed')
     }
   }
 }
