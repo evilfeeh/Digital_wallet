@@ -9,11 +9,15 @@ export class UserRepository implements IUserRepository {
     this.AppDataSource = new DataSource({ ...postgres, type: 'postgres' })
   }
   async get(email: User['email']): Promise<User> {
-    return this.AppDataSource
-    .getRepository(User)
-    .createQueryBuilder('user')
-    .where('user.email = :email', { email })
-    .getOne()
+    try {
+      return this.AppDataSource
+      .getRepository(User)
+      .createQueryBuilder('user')
+      .where('user.email = :email', { email })
+      .getOne()
+    } catch (error) {
+      throw new Error(error.message)
+    }
   }
   async getAll(): Promise<User[]> {
     return this.AppDataSource
@@ -22,13 +26,17 @@ export class UserRepository implements IUserRepository {
     .getMany()
   }
   async save(user: User): Promise<boolean> {
-    const { raw } = await this.AppDataSource
-    .createQueryBuilder()
-    .insert()
-    .into(User)
-    .values(user)
-    .execute()
-    return (raw.affected) ? true : false
+    try {
+      const { raw } = await this.AppDataSource
+      .createQueryBuilder()
+      .insert()
+      .into(User)
+      .values(user)
+      .execute()
+      return (raw.affected) ? true : false
+    } catch (error) {
+      throw new Error(error.message)
+    }
   }
   async update(email: User['email'], toUpdate: any): Promise<boolean> {
     const { affected } = await this.AppDataSource
