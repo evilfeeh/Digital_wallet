@@ -1,17 +1,16 @@
 import * as express from 'express'
-import { Request, Response } from 'express'
+import { Request, Response, json } from 'express'
 import { UserBuilder } from '../../utils'
 import { Payment } from '../../services'
 const app = express();
 
-app.use(express.json)
-app.use('/v1', () => {})
+app.use(json())
 
-app.post('/user', (req: Request, res: Response) => {
+app.post('/v1/user', async (req: Request, res: Response) => {
   const userBuilder = new UserBuilder()
   const candidate = req.body
   try {
-    const user = userBuilder
+    const user = await userBuilder
     .fullname(candidate.fullname)
     .commonUser(candidate.commonUser)
     .cpfCnpj(candidate.CPF_CNPJ)
@@ -22,7 +21,7 @@ app.post('/user', (req: Request, res: Response) => {
 
     res.status(200).json({ status: 'Success', message: "User created successfully", value: user })
   } catch (error) {
-    res.status(401).json({ status: 'Error', message: "User creation", value: error.message })
+    res.status(500).json({ status: 'Error', message: "User creation", value: error.message })
   }
 })
 
