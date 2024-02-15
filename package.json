@@ -5,7 +5,7 @@
   "main": "./src/adapters/express/server.ts",
   "scripts": {
     "start": "npx ts-node ./src/adapters/express/server.ts",
-    "start:dev": "nodemon ./src/adapters/express/server.ts",
+    "start:dev": "nodemon -r dotenv/config ./src/adapters/express/server.ts",
     "test": "jest",
     "typeorm": "typeorm-ts-node-esm"
   },
