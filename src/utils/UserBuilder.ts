@@ -3,7 +3,16 @@ import { Iuser } from '../interfaces/user'
 import { hashingPassword, DataValidation } from './'
 
 export class UserBuilder {
-  user: Iuser
+  user: Iuser = {
+    id: '',
+    fullname: '',
+    CPF_CNPJ: '',
+    email: '',
+    hash: '',
+    commonUser: false,
+    active: true,
+    phone: ''
+  }
   private readonly userManagment = new User()
   private readonly walletManagment = new Wallet()
   private readonly dataValidation = new DataValidation
@@ -53,7 +62,7 @@ export class UserBuilder {
     const newUser = await this.userManagment.create(this.user)
     if (!newUser) throw new Error('Failed Atempt to create User')
     const wallet = await this.walletManagment.create(await this.userManagment.get.bind(this.user.email))
-    if (!wallet) throw new Error('Failed Atempt to create User\' wallet')
+    if (!wallet) throw new Error('Failed Atempt to create User\'s wallet')
 
     return this.user
   }
