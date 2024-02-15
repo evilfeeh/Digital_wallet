@@ -6,7 +6,7 @@ export class User {
   user: Iuser
 
   async create (user: Iuser): Promise<boolean> {
-    this.user.active = true
+    this.user = user
     const clientExists = await this.userRepository.get(user.email)
     if (clientExists) return false
 
@@ -16,7 +16,11 @@ export class User {
   }
 
   async get (email: string): Promise<Iuser> {
-    return await this.userRepository.get(email)
+    try {
+      return await this.userRepository.get(email)
+    } catch (error) {
+      throw new Error(error.message)
+    }
   }
 
   async update (email: string, toUpdate: any) {
