@@ -4,8 +4,21 @@ import { WalletRepository } from '../model/walletRepository'
 
 export class Wallet {
   walletRepository = new WalletRepository
-  user: Iuser
-  wallet: Iwallet
+  user: Iuser = {
+    id: '',
+    fullname: '',
+    CPF_CNPJ: '',
+    email: '',
+    hash: '',
+    commonUser: false,
+    active: false,
+    phone: ''
+  }
+  wallet: Iwallet = {
+    id: '',
+    user_id: '',
+    debit_amount: 0
+  }
   async create (user_id: Iuser["id"]): Promise<boolean>  {
     this.wallet.debit_amount = 0
     this.wallet.user_id = user_id
