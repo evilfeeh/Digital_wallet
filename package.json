@@ -6,6 +6,8 @@
   "scripts": {
     "start": "npx ts-node ./src/adapters/express/server.ts",
     "start:dev": "nodemon -r dotenv/config ./src/adapters/express/server.ts",
+    "migration:run": "npx ts-node typeorm migration:run -d ./src/config/ormconfig.ts",
+    "migration:revert": "npx ts-node typeorm migration:revert -d ./src/config/ormconfig.ts",
     "test": "jest",
     "typeorm": "typeorm-ts-node-esm"
   },
@@ -25,6 +27,7 @@
   "homepage": "https://github.com/evilfeeh/digital-wallet#readme",
   "devDependencies": {
     "@types/node": "^20.10.5",
+    "@types/pg": "^8.11.0",
     "@types/validator": "^13.11.7",
     "nodemon": "^3.0.2"
   },
