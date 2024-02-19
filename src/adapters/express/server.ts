@@ -12,16 +12,16 @@ app.post('/v1/user', async (req: Request, res: Response) => {
   try {
     const user = await userBuilder
     .fullname(candidate.fullname)
-    .commonUser(candidate.commonUser)
     .cpfCnpj(candidate.CPF_CNPJ)
     .email(candidate.email)
     .phone(candidate.phone)
     .password(candidate.password)
+    .commonUser()
     .build()
 
     res.status(200).json({ status: 'Success', message: "User created successfully", value: user })
   } catch (error) {
-    res.status(500).json({ status: 'Error', message: "User creation", value: error.message })
+    res.status(500).json({ status: 'Error', message: "Internal error server" })
   }
 })
 
