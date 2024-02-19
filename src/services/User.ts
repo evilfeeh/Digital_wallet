@@ -5,14 +5,17 @@ export class User {
   private readonly userRepository = new UserRepository()
   user: Iuser
 
-  async create (user: Iuser): Promise<boolean> {
+  async create (user: any): Promise<Iuser> {
     this.user = user
-    const clientExists = await this.userRepository.get(user.email)
-    if (clientExists) return false
-
-    const insertedObj = await this.userRepository.save(user)
-    if (!insertedObj) return false
-    return true
+    try {
+      const clientExists = await this.userRepository.get(user.email)
+      if (clientExists) return clientExists
+  
+      const insertedObj = await this.userRepository.save(user)
+      if (insertedObj) return insertedObj
+    } catch (error) {
+      throw new Error(error.message)
+    }
   }
 
   async get (email: string): Promise<Iuser> {
