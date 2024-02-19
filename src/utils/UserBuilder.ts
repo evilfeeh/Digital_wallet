@@ -1,10 +1,8 @@
 import { User, Wallet } from '../services'
-import { Iuser } from '../interfaces/user'
 import { hashingPassword, DataValidation } from './'
 
 export class UserBuilder {
-  user: Iuser = {
-    id: '',
+  user = {
     fullname: '',
     CPF_CNPJ: '',
     email: '',
@@ -52,18 +50,22 @@ export class UserBuilder {
     return  this
   }
 
-  commonUser(commonUser: string) {
-    if (commonUser === 'common') this.user.commonUser = true
+  commonUser() {
+    if (this.user.CPF_CNPJ.length === 11) this.user.commonUser = true
     this.user.commonUser = false
     return  this
   }
 
   async build() {
-    const newUser = await this.userManagment.create(this.user)
-    if (!newUser) throw new Error('Failed Atempt to create User')
-    const wallet = await this.walletManagment.create(await this.userManagment.get.bind(this.user.email))
-    if (!wallet) throw new Error('Failed Atempt to create User\'s wallet')
-
-    return this.user
+    try {
+      Promise.all([
+        await this.userManagment.create(this.user),
+        await this.walletManagment.create((await this.userManagment.get(this.user.email)).id)
+      ])
+      
+      return this.user
+    } catch (error) {
+      throw new Error(error)
+    }
   }
 }
