@@ -1,4 +1,5 @@
 import { createLogger, format, transports, Logger as loggerClass } from 'winston'
+import { Ilogger } from './logger-interface'
 
 export class Logger implements Ilogger {
   private readonly logger: loggerClass;
@@ -18,7 +19,7 @@ export class Logger implements Ilogger {
       }));
     }
   }
-  log (level: string, message: string, params: any) {
+  log (level: string, message: string, params?: any) {
     this.logger.log({
       level,
       message

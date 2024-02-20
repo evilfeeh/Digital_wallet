@@ -2,6 +2,8 @@ import * as express from 'express'
 import { Request, Response, json } from 'express'
 import { UserBuilder } from '../../utils'
 import { Payment } from '../../services'
+import { Logger } from '../../adapters/logger/logger'
+const logger = new Logger()
 const app = express();
 
 app.use(json())
@@ -33,6 +35,7 @@ app.post('/transaction', (req: Request, res: Response) => {
     res.status(200).json(response)
 
   } catch (error) {
+    logger.log('error', error.message)
     res.status(500).json({ status: 'Error', message: "Transaction", value: error.message })
   }
 })
