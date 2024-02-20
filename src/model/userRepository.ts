@@ -1,17 +1,14 @@
 import { IUserRepository } from '../interfaces/user-repository'
 import { DataSource } from 'typeorm'
-import { User } from '../entities/user'
-import { postgres } from '../config/databases'
+import { Users } from '../entities'
+import datasource from '../config/ormconfig'
 
 export class UserRepository implements IUserRepository {
-  AppDataSource: DataSource
-  constructor () {
-    this.AppDataSource = new DataSource({ ...postgres, type: 'postgres' })
-  }
-  async get(email: User['email']): Promise<User> {
+  AppDataSource: DataSource = datasource
+  async get(email: Users['email']): Promise<Users> {
     try {
       return this.AppDataSource
-      .getRepository(User)
+      .getRepository(Users)
       .createQueryBuilder('user')
       .where('user.email = :email', { email })
       .getOne()
@@ -19,39 +16,39 @@ export class UserRepository implements IUserRepository {
       throw new Error(error.message)
     }
   }
-  async getAll(): Promise<User[]> {
+  async getAll(): Promise<Users[]> {
     return this.AppDataSource
-    .getRepository(User)
+    .getRepository(Users)
     .createQueryBuilder('user')
     .getMany()
   }
-  async save(user: User): Promise<boolean> {
+  async save(user: Users): Promise<Users> {
     try {
-      const { raw } = await this.AppDataSource
+      const insertedUsers = await this.AppDataSource
       .createQueryBuilder()
       .insert()
-      .into(User)
+      .into(Users)
       .values(user)
       .execute()
-      return (raw.affected) ? true : false
+      return insertedUsers.raw
     } catch (error) {
       throw new Error(error.message)
     }
   }
-  async update(email: User['email'], toUpdate: any): Promise<boolean> {
+  async update(email: Users['email'], toUpdate: any): Promise<boolean> {
     const { affected } = await this.AppDataSource
     .createQueryBuilder()
-    .update(User)
+    .update(Users)
     .set(toUpdate)
     .where("email = :email", { email })
     .execute()
     return (affected) ? true : false
   }
-  async delete(email: User['email']): Promise<boolean> {
+  async delete(email: Users['email']): Promise<boolean> {
     const { affected } = await this.AppDataSource
-    .getRepository(User)
+    .getRepository(Users)
     .createQueryBuilder('user')
-    .update(User)
+    .update(Users)
     .set({ active: false })
     .where("email = :email", { email })
     .execute()
