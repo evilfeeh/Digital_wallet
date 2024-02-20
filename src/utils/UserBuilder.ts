@@ -58,10 +58,11 @@ export class UserBuilder {
 
   async build() {
     try {
-      await this.userManagment.create(this.user),
-      await this.walletManagment.create((await this.userManagment.get(this.user.email)).id)
+      await this.userManagment.create(this.user)
+      const createdUser = await this.userManagment.get(this.user.email)
+      await this.walletManagment.create(createdUser.id)
 
-      return this.user
+      return { fullname: this.user.fullname, email: this.user.email, phone: this.user.phone }
     } catch (error) {
       throw new Error(error)
     }
