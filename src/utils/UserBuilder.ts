@@ -58,11 +58,9 @@ export class UserBuilder {
 
   async build() {
     try {
-      Promise.all([
-        await this.userManagment.create(this.user),
-        await this.walletManagment.create((await this.userManagment.get(this.user.email)).id)
-      ])
-      
+      await this.userManagment.create(this.user),
+      await this.walletManagment.create((await this.userManagment.get(this.user.email)).id)
+
       return this.user
     } catch (error) {
       throw new Error(error)
