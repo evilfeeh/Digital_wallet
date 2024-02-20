@@ -18,10 +18,10 @@ export class Users implements Iuser{
   @Column("varchar", { length: 100 })
   hash: string
 
-  @Column("boolean")
+  @Column("boolean", { default: true })
   commonUser: boolean
 
-  @Column("boolean")
+  @Column("boolean", { default: true })
   active: boolean
 
   @Column("varchar", { length: 11 })
