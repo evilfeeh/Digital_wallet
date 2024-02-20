@@ -2,14 +2,24 @@ version: '3.1'
 
 services:
   digital_wallet:
+    container_name: digitalWallet
     restart: on-failure
     build: .
+    env_file: .env
     ports:
-      - ${APP_PORT}:${APP_PORT}
+      - ${PORT}:${PORT}
     volumes:
-      - .:/digital_wallet
-    depends_on: postgres
+      - ./src:/digital_wallet
+    depends_on:
+      - postgres
+      - mongo
+    deploy:
+      resources:
+        limits:
+          cpus: "1.5"
+          memory: "550MB"
   postgres:
+    container_name: postgres-wallet
     image: postgres
     restart: on-failure
     environment:
@@ -19,9 +29,9 @@ services:
     ports:
       - ${DB_PORT}:${DB_PORT}
     volumes:
-      - pgdata:/var/lib/postgresql/data
+      - /var/lib/postgresql/data:/var/lib/postgresql/data
   mongo:
-    image: 7.0.5-rc0-nanoserver
+    image: mongo:7.0.5
     restart: on-failure
     ports:
       - ${MONGO_PORT}:${MONGO_PORT}
@@ -30,4 +40,4 @@ services:
       MONGO_INITDB_ROOT_PASSWORD: ${MONGO_PASSWORD}
       MONGO_INITDB_DATABASE: ${MONGO_DATABASE}
     volumes:
-      - mongodata:/data/db
+      - /data/db:/data/db

@@ -1,21 +1,19 @@
 import { User, Wallet } from '../services'
-import { Iuser } from '../interfaces/user'
 import { hashingPassword, DataValidation } from './'
 
 export class UserBuilder {
-  user: Iuser
-  userManagment = new User()
-  walletManagment = new Wallet()
-  dataValidation = new DataValidation
-  constructor() {
-    this.user.fullname = ''
-    this.user.CPF_CNPJ = ''
-    this.user.hash = ''
-    this.user.email = ''
-    this.user.phone = ''
-    this.user.commonUser = false
-    this.user.active = true
+  user = {
+    fullname: '',
+    CPF_CNPJ: '',
+    email: '',
+    hash: '',
+    commonUser: false,
+    active: true,
+    phone: ''
   }
+  private readonly userManagment = new User()
+  private readonly walletManagment = new Wallet()
+  private readonly dataValidation = new DataValidation
 
   fullname(name: string) {
     const { status, message } = this.dataValidation.checkFullname(name)
@@ -52,18 +50,21 @@ export class UserBuilder {
     return  this
   }
 
-  commonUser(commonUser: string) {
-    if (commonUser === 'common') this.user.commonUser = true
+  commonUser() {
+    if (this.user.CPF_CNPJ.length === 11) this.user.commonUser = true
     this.user.commonUser = false
     return  this
   }
 
   async build() {
-    const newUser = await this.userManagment.create(this.user)
-    if (!newUser) throw new Error('Failed Atempt to create User')
-    const wallet = await this.walletManagment.create(await this.userManagment.get.bind(this.user.email))
-    if (!wallet) throw new Error('Failed Atempt to create User\' wallet')
+    try {
+      await this.userManagment.create(this.user)
+      const createdUser = await this.userManagment.get(this.user.email)
+      await this.walletManagment.create(createdUser.id)
 
-    return this.user
+      return { fullname: this.user.fullname, email: this.user.email, phone: this.user.phone }
+    } catch (error) {
+      throw new Error(error)
+    }
   }
 }

@@ -2,7 +2,7 @@ import { Iuser } from '../interfaces/user';
 import { Entity, PrimaryGeneratedColumn, Column } from "typeorm"
 
 @Entity()
-export class User implements Iuser{
+export class Users implements Iuser{
   @PrimaryGeneratedColumn("uuid")
   id: string
 

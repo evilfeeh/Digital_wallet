@@ -2,7 +2,7 @@ export interface Ipassword {
   password: string;
 }
 
-export interface Iuser {
+export type Iuser = {
   id: string;
   fullname: string;
   CPF_CNPJ: string;
