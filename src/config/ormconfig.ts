@@ -15,5 +15,4 @@ const datasource = new DataSource({
 
 datasource.initialize();
 
-console.log('initializing datasource')
 export default datasource;
