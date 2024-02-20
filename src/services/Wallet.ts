@@ -17,13 +17,14 @@ export class Wallet {
     user_id: '',
     debit_amount: 0
   }
-  async create (user_id: Iuser["id"]): Promise<boolean>  {
+  async create (user_id: Iuser["id"]): Promise<Iwallet>  {
     this.wallet.debit_amount = 0
     this.wallet.user_id = user_id
     try {
-      const wallet = await this.walletRepository.save(this.wallet)
-      if (!wallet) return false
-      return true
+      const walletExists = await this.walletRepository.get(user_id)
+      if (walletExists) return walletExists
+
+      return this.walletRepository.save(this.wallet)
     } catch (error) {
       throw new Error(error)
     }
