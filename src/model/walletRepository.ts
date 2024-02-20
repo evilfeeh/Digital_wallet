@@ -9,10 +9,10 @@ export class WalletRepository implements IWalletRepository{
     return this.AppDataSource
     .getRepository(Wallet)
     .createQueryBuilder('wallet')
-    .where('user_id = :user_id', { userId })
+    .where('wallet.user_id = :userId', { userId })
     .getOne()
   }
-  async save (wallet: any): Promise<boolean> {
+  async save (wallet: any): Promise<any> {
     try {
       const insertedUsers = await this.AppDataSource
       .createQueryBuilder()
@@ -21,7 +21,7 @@ export class WalletRepository implements IWalletRepository{
       .values(wallet)
       .execute()
       
-      return insertedUsers.raw
+      return insertedUsers
     } catch (error) {
       throw new Error(error.message)
     }
