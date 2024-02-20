@@ -4,8 +4,7 @@ import { WalletRepository } from '../model/walletRepository'
 
 export class Wallet {
   walletRepository = new WalletRepository
-  user: Iuser = {
-    id: '',
+  user = {
     fullname: '',
     CPF_CNPJ: '',
     email: '',
@@ -14,19 +13,20 @@ export class Wallet {
     active: false,
     phone: ''
   }
-  wallet: Iwallet = {
-    id: '',
+  wallet = {
     user_id: '',
     debit_amount: 0
   }
   async create (user_id: Iuser["id"]): Promise<boolean>  {
     this.wallet.debit_amount = 0
     this.wallet.user_id = user_id
-
-    const wallet = await this.walletRepository.save(this.wallet)
-    if (!wallet) return false
-
-    return true
+    try {
+      const wallet = await this.walletRepository.save(this.wallet)
+      if (!wallet) return false
+      return true
+    } catch (error) {
+      throw new Error(error)
+    }
   }
 
   async get (user_id: Iuser["id"]): Promise<Iwallet> {

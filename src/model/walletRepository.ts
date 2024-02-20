@@ -1,13 +1,10 @@
-import { Wallet } from '../entities/wallet';
+import { Wallet } from '../entities';
 import { DataSource } from 'typeorm'
 import { IWalletRepository } from '../interfaces/wallet-repository'
-import { postgres } from '../config/databases'
+import datasource from '../config/ormconfig';
 
 export class WalletRepository implements IWalletRepository{
-  AppDataSource: DataSource
-  constructor () {
-    this.AppDataSource = new DataSource({ ...postgres, type: 'postgres' })
-  }
+  AppDataSource: DataSource = datasource
   async get (userId: Wallet['user_id']): Promise<Wallet> {
     return this.AppDataSource
     .getRepository(Wallet)
@@ -15,15 +12,19 @@ export class WalletRepository implements IWalletRepository{
     .where('user_id = :user_id', { userId })
     .getOne()
   }
-  async save (wallet: Wallet): Promise<boolean> {
-    const { raw } = await this.AppDataSource
-    .createQueryBuilder()
-    .insert()
-    .into(Wallet)
-    .values(wallet)
-    .execute()
-
-    return (raw.affected) ? true : false
+  async save (wallet: any): Promise<boolean> {
+    try {
+      const insertedUsers = await this.AppDataSource
+      .createQueryBuilder()
+      .insert()
+      .into(Wallet)
+      .values(wallet)
+      .execute()
+      
+      return insertedUsers.raw
+    } catch (error) {
+      throw new Error(error.message)
+    }
   }
   async deposit (amount: number, id: Wallet['id']): Promise<boolean> {
     const { raw } = await this.AppDataSource
