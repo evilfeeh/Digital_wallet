@@ -6,6 +6,7 @@
   "scripts": {
     "start": "npx ts-node ./src/adapters/express/server.ts",
     "start:dev": "nodemon -r dotenv/config ./src/adapters/express/server.ts",
+    "migration:create": "npx ts-node ./node_modules/.bin/typeorm migration:create",
     "migration:run": "npx ts-node ./node_modules/.bin/typeorm migration:run -d ./src/config/ormconfig.ts",
     "migration:revert": "npx ts-node ./node_modules/.bin/typeorm migration:revert -d ./src/config/ormconfig.ts",
     "test": "jest",
