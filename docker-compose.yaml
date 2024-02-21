@@ -30,14 +30,3 @@ services:
       - ${DB_PORT}:${DB_PORT}
     volumes:
       - /var/lib/postgresql/data:/var/lib/postgresql/data
-  mongo:
-    image: mongo:7.0.5
-    restart: on-failure
-    ports:
-      - ${MONGO_PORT}:${MONGO_PORT}
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: ${MONGO_USERNAME}
-      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_PASSWORD}
-      MONGO_INITDB_DATABASE: ${MONGO_DATABASE}
-    volumes:
-      - /data/db:/data/db
