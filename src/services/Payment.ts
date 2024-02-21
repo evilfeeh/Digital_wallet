@@ -1,7 +1,7 @@
 import { OrderRepository } from '../model'
 import { instantiateUser } from '../utils/instantiateUser'
 import { IOrder } from '../interfaces/order'
-import { Logger } from 'winston'
+import { Logger } from '../adapters/logger/logger'
 
 export class Payment {
   private readonly order: IOrder
@@ -17,7 +17,7 @@ export class Payment {
 
   async start () {
     try {
-      await this.orderRepository.save(this.order, 'STARTING TRANSACTION');
+      await this.orderRepository.save(this.order);
 
       const isAuthorized = await this.authorizator()
 
@@ -38,6 +38,7 @@ export class Payment {
       await seller.deposit()
 
       this.orderRepository.update(this.order, 'TRANSACTION DONE SUCCESSFULLY')
+      this.logger.log('info', 'Order Complete Successfully')
       return { status: 'Success', message: 'Order Complete Successfully' }
     } catch (error) {
       await this.orderRepository.update(this.order, 'TRANSACTION FAILED')
