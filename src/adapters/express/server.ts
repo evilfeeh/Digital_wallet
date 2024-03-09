@@ -44,6 +44,10 @@ app.post('/money', async (req: Request, res: Response) => {
   }
 })
 
+app.get('/ping', (req, res) => {
+  res.send('pong')
+})
+
 app.post('/transaction', (req: Request, res: Response) => {
   try {
     const order = req.body
