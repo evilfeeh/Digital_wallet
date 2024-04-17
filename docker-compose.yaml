@@ -1,32 +1,36 @@
 version: '3.1'
 
 services:
-  digital_wallet:
-    container_name: digitalWallet
-    restart: on-failure
-    build: .
-    env_file: .env
-    ports:
-      - ${PORT}:${PORT}
-    volumes:
-      - ./src:/digital_wallet
-    depends_on:
-      - postgres
-      - mongo
-    deploy:
-      resources:
-        limits:
-          cpus: "1.5"
-          memory: "550MB"
-  postgres:
-    container_name: postgres-wallet
-    image: postgres
-    restart: on-failure
-    environment:
-      POSTGRES_PASSWORD: ${DB_PASSWORD}
-      POSTGRES_USER: ${DB_USERNAME}
-      POSTGRES_DATABASE: ${DB_DATABASE}
-    ports:
-      - ${DB_PORT}:${DB_PORT}
-    volumes:
-      - /var/lib/postgresql/data:/var/lib/postgresql/data
+    digital_wallet:
+        restart: on-failure
+        build: .
+        env_file: .env
+        ports:
+            - ${PORT}:${PORT}
+        # TODO: Implements Volume propely
+        volumes:
+            - .:/digital_wallet
+        depends_on:
+            - postgres
+        deploy:
+            resources:
+                limits:
+                    cpus: "1"
+                    memory: "550MB"
+    postgres:
+        container_name: postgres-wallet
+        image: postgres
+        restart: on-failure
+        environment:
+            POSTGRES_PASSWORD: ${DB_PASSWORD}
+            POSTGRES_USER: ${DB_USERNAME}
+            POSTGRES_DATABASE: ${DB_DATABASE}
+        ports:
+            - ${DB_PORT}:${DB_PORT}
+        volumes:
+            - /var/lib/postgresql/data:/var/lib/postgresql/data
+        deploy:
+            resources:
+                limits:
+                    cpus: "1"
+                    memory: "550MB"

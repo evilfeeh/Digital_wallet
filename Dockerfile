@@ -1,11 +1,11 @@
 FROM node:latest
 
-WORKDIR /wallet
+WORKDIR /digital_wallet
 
-COPY . .
+COPY . /digital_wallet/
 
 RUN npm i -y
 
 EXPOSE ${PORT}
 
-CMD ["npm", "run", "start"]
+CMD ["npm", "run", "start:dev"]
