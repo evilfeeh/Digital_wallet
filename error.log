@@ -1,0 +1,13 @@
+{"level":"error","message":"invalid input syntax for type uuid: \"felipe@teste.com\"","service":"user-service"}
+{"level":"error","message":"invalid input syntax for type uuid: \"felipe@teste.com\"","service":"user-service"}
+{"level":"error","message":"Cannot read properties of undefined (reading 'payment_amount')","service":"user-service"}
+{"level":"error","message":"this.wallet.withdraw is not a function","service":"user-service"}
+{"level":"error","message":"this.wallet.withdraw is not a function","service":"user-service"}
+{"level":"error","message":"this.wallet.withdraw is not a function","service":"user-service"}
+{"level":"error","message":"Cannot read properties of null (reading 'debit_amount')","service":"user-service"}
+{"level":"error","message":"Cannot read properties of null (reading 'debit_amount')","service":"user-service"}
+{"level":"error","message":"Cannot read properties of null (reading 'debit_amount')","service":"user-service"}
+{"level":"error","message":"Cannot read properties of null (reading 'debit_amount')","service":"user-service"}
+{"level":"error","message":"Cannot read properties of null (reading 'debit_amount')","service":"user-service"}
+{"level":"error","message":"Cannot read properties of null (reading 'debit_amount')","service":"user-service"}
+{"level":"error","message":"Cannot read properties of null (reading 'debit_amount')","service":"user-service"}

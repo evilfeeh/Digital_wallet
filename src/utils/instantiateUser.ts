@@ -1,21 +1,34 @@
-import { User, Wallet } from '../services'
+import { User, Wallet } from "../services";
 
-export async function instantiateUser (user_id: string) {
-  const user = await new User().get(user_id)
-  const wallet = await new Wallet().get(user_id)
-  const debit_amount = wallet.debit_amount
-  async function deposit () {
-    return this.wallet.deposit(this.order.payment_amount, user.id)
+export class InstantiateUser {
+  user_email: string;
+  total_amount: number;
+  private user: any;
+  private wallet: any;
+  private readonly userManagment = new User();
+  private readonly walletManagment = new Wallet();
+  constructor(user_email: string) {
+    this.user_email = user_email;
   }
-  async function withdraw() {
-    return this.wallet.withdraw(this.order.payment_amount, user_id)
+  async deposit(amount: number) {
+    try {
+      this.user = await this.userManagment.get(this.user_email);
+      this.wallet = await this.walletManagment.get(this.user.id);
+      this.total_amount = this.wallet.debit_amount;
+      return this.walletManagment.deposit(amount, this.user.id);
+    } catch (error) {
+      throw error;
+    }
   }
-
-  return {
-    user,
-    wallet,
-    debit_amount,
-    deposit,
-    withdraw
+  async withdraw(amount: number) {
+    try {
+      this.user = await this.userManagment.get(this.user_email);
+      this.wallet = await this.walletManagment.get(this.user.id);
+      this.total_amount = this.wallet.debit_amount;
+      console.log(this.wallet);
+      return this.walletManagment.withdraw(amount, this.user.id);
+    } catch (error) {
+      throw error;
+    }
   }
 }
