@@ -1,39 +1,44 @@
-import { Wallet } from '../entities';
-import { DataSource } from 'typeorm'
-import { IWalletRepository } from '../interfaces/wallet-repository'
-import datasource from '../config/ormconfig';
+import { Wallet } from "../entities";
+import { DataSource } from "typeorm";
+import { IWalletRepository } from "../interfaces/wallet-repository";
+import datasource from "../config/ormconfig";
 
-export class WalletRepository implements IWalletRepository{
-  AppDataSource: DataSource = datasource
-  async get (userId: Wallet['user_id']): Promise<Wallet> {
-    return this.AppDataSource
-    .getRepository(Wallet)
-    .createQueryBuilder('wallet')
-    .where('wallet.user_id = :userId', { userId })
-    .getOne()
-  }
-  async save (wallet: any): Promise<any> {
+export class WalletRepository implements IWalletRepository {
+  AppDataSource: DataSource = datasource;
+  async get(userId: Wallet["user_id"]): Promise<Wallet> {
     try {
-      const insertedUsers = await this.AppDataSource
-      .createQueryBuilder()
-      .insert()
-      .into(Wallet)
-      .values(wallet)
-      .execute()
-      
-      return insertedUsers
+      return this.AppDataSource.getRepository(Wallet)
+        .createQueryBuilder("wallet")
+        .where("wallet.user_id = :userId", { userId })
+        .getOne();
     } catch (error) {
-      throw new Error(error.message)
+      throw error;
     }
   }
-  async deposit (amount: number, id: Wallet['id']): Promise<boolean> {
-    const { raw } = await this.AppDataSource
-    .createQueryBuilder()
-    .update(Wallet)
-    .set({ debit_amount: amount })
-    .where("id = :id", { id })
-    .execute()
+  async save(wallet: any): Promise<any> {
+    try {
+      const insertedUsers = await this.AppDataSource.createQueryBuilder()
+        .insert()
+        .into(Wallet)
+        .values(wallet)
+        .execute();
 
-    return (raw.affected) ? true : false
+      return insertedUsers;
+    } catch (error) {
+      throw error;
+    }
+  }
+  async deposit(amount: number, id: Wallet["id"]): Promise<boolean> {
+    try {
+      const { raw } = await this.AppDataSource.createQueryBuilder()
+        .update(Wallet)
+        .set({ debit_amount: amount })
+        .where("id = :id", { id })
+        .execute();
+
+      return raw.affected ? true : false;
+    } catch (error) {
+      throw error;
+    }
   }
 }

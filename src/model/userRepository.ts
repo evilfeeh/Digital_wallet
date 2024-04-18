@@ -1,6 +1,7 @@
 import { IUserRepository } from "../interfaces/user-repository";
 import { DataSource } from "typeorm";
 import { Users } from "../entities";
+import { Iuser } from "../interfaces/user";
 import datasource from "../config/ormconfig";
 
 export class UserRepository implements IUserRepository {
@@ -12,15 +13,19 @@ export class UserRepository implements IUserRepository {
         .where("user.email = :email", { email })
         .getOne();
     } catch (error) {
-      throw new Error(error.message);
+      throw error;
     }
   }
   async getAll(): Promise<Users[]> {
-    return this.AppDataSource.getRepository(Users)
-      .createQueryBuilder("user")
-      .getMany();
+    try {
+      return this.AppDataSource.getRepository(Users)
+        .createQueryBuilder("user")
+        .getMany();
+    } catch (error) {
+      throw error;
+    }
   }
-  async save(user: Users): Promise<Users> {
+  async save(user: Iuser): Promise<Users> {
     try {
       const insertedUsers = await this.AppDataSource.createQueryBuilder()
         .insert()
@@ -29,24 +34,32 @@ export class UserRepository implements IUserRepository {
         .execute();
       return insertedUsers.raw;
     } catch (error) {
-      throw new Error(error.message);
+      throw error;
     }
   }
   async update(email: Users["email"], toUpdate: any): Promise<boolean> {
-    const { affected } = await this.AppDataSource.createQueryBuilder()
-      .update(Users)
-      .set(toUpdate)
-      .where("email = :email", { email })
-      .execute();
-    return affected ? true : false;
+    try {
+      const { affected } = await this.AppDataSource.createQueryBuilder()
+        .update(Users)
+        .set(toUpdate)
+        .where("email = :email", { email })
+        .execute();
+      return affected ? true : false;
+    } catch (error) {
+      throw error;
+    }
   }
   async delete(email: Users["email"]): Promise<boolean> {
-    const { affected } = await this.AppDataSource.getRepository(Users)
-      .createQueryBuilder("user")
-      .update(Users)
-      .set({ active: false })
-      .where("email = :email", { email })
-      .execute();
-    return affected ? true : false;
+    try {
+      const { affected } = await this.AppDataSource.getRepository(Users)
+        .createQueryBuilder("user")
+        .update(Users)
+        .set({ active: false })
+        .where("email = :email", { email })
+        .execute();
+      return affected ? true : false;
+    } catch (error) {
+      throw error;
+    }
   }
 }
