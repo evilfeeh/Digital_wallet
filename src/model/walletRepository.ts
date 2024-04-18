@@ -28,7 +28,7 @@ export class WalletRepository implements IWalletRepository {
       throw error;
     }
   }
-  async deposit(amount: number, id: Wallet["id"]): Promise<boolean> {
+  async update(amount: number, id: Wallet["id"]): Promise<boolean> {
     try {
       const { raw } = await this.AppDataSource.createQueryBuilder()
         .update(Wallet)
