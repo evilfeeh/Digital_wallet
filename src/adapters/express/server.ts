@@ -8,15 +8,14 @@ const app = express();
 
 app.use(json());
 
-app.get("/ping", (req, res) => {
+app.get("/ping", (req: Request, res: Response) => {
   res.send("pong");
 });
 
 app.post("/v1/user", async (req: Request, res: Response) => {
   try {
     const userManagment = new User();
-    const candidate = req.body;
-    userManagment.create(candidate);
+    const user = await userManagment.create(req.body);
 
     res.status(200).json({
       status: "Success",

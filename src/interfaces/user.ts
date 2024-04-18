@@ -3,7 +3,7 @@ export interface Ipassword {
 }
 
 export type Iuser = {
-  id: string;
+  id?: string;
   fullname: string;
   CPF_CNPJ: string;
   email: string;
@@ -11,5 +11,4 @@ export type Iuser = {
   commonUser: boolean;
   active: boolean;
   phone: string;
-}
-
+};

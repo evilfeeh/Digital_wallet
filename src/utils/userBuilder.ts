@@ -1,6 +1,7 @@
 import { hashingPassword, DataValidation } from ".";
 
 export class UserBuilder {
+  private readonly dataValidation = new DataValidation();
   user = {
     fullname: "",
     CPF_CNPJ: "",
@@ -10,7 +11,6 @@ export class UserBuilder {
     active: true,
     phone: "",
   };
-  private readonly dataValidation = new DataValidation();
 
   fullname(name: string) {
     const { status, message } = this.dataValidation.checkFullname(name);
