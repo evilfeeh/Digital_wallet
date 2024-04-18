@@ -1,5 +1,6 @@
 import { Iwallet } from "../interfaces/wallet";
 import { Iuser } from "../interfaces/user";
+import { User } from "./User";
 import { WalletRepository } from "../model/walletRepository";
 
 export class Wallet {
@@ -28,8 +29,11 @@ export class Wallet {
     }
   }
 
-  async deposit(amount: number, user_id: Iwallet["user_id"]): Promise<boolean> {
+  async deposit(amount: number, user_email: Iuser["email"]): Promise<boolean> {
     try {
+      // TODO: save action in history
+      const user = new User();
+      const { id: user_id } = await user.get(user_email);
       const wallet = await this.walletRepository.get(user_id);
 
       const newAmount = wallet.debit_amount + amount;
@@ -41,19 +45,18 @@ export class Wallet {
     }
   }
 
-  async withdraw(
-    amount: number,
-    user_id: Iwallet["user_id"]
-  ): Promise<boolean> {
-    const wallet = await this.walletRepository.get(user_id);
+  async withdraw(amount: number, user_email: Iuser["email"]): Promise<boolean> {
+    try {
+      const user = new User();
+      const { id: user_id } = await user.get(user_email);
+      const wallet = await this.walletRepository.get(user_id);
 
-    const newAmount = wallet.debit_amount - amount;
-    const wasDeposited = await this.walletRepository.update(
-      newAmount,
-      wallet.id
-    );
+      const newAmount = wallet.debit_amount - amount;
+      await this.walletRepository.update(newAmount, wallet.id);
 
-    if (!wasDeposited) return false;
-    return true;
+      return true;
+    } catch (error) {
+      throw error;
+    }
   }
 }

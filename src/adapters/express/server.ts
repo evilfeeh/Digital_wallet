@@ -23,6 +23,7 @@ app.post("/v1/user", async (req: Request, res: Response) => {
       value: user,
     });
   } catch (error) {
+    logger.log("error", error.message);
     res.status(500).json({ status: "Error", message: "Internal error server" });
   }
 });
@@ -30,19 +31,41 @@ app.post("/v1/user", async (req: Request, res: Response) => {
 app.post("/deposit", async (req: Request, res: Response) => {
   try {
     const { amount, user_email } = req.body;
-    const wallet = new Wallet();
-    const user = new User();
+    if (amount <= 0) res.status(401).json("Amount must be greater than zero");
 
-    const user_id = (await user.get(user_email)).id;
-    const response = wallet.deposit(amount, user_id);
-    if (!response)
+    const wallet = new Wallet();
+    const wasDeposited = await wallet.deposit(amount, user_email);
+    if (!wasDeposited)
       res
         .status(401)
         .json({ status: "Error", message: "Deposit cannot be done" });
 
     res.status(200).json({
       status: "Success",
-      message: "Money deposited successfully",
+      message: "Cash deposited successfully",
+      value: amount,
+    });
+  } catch (error) {
+    logger.log("error", error.message);
+    res.status(500).json({ status: "Error", message: "Internal error server" });
+  }
+});
+
+app.post("/withdraw", async (req: Request, res: Response) => {
+  try {
+    const { amount, user_email } = req.body;
+    if (amount <= 0) res.status(401).json("Amount must be greater than zero");
+
+    const wallet = new Wallet();
+    const wasWithdrawn = await wallet.withdraw(amount, user_email);
+    if (!wasWithdrawn)
+      res
+        .status(401)
+        .json({ status: "Error", message: "Withdraw cannot be done" });
+
+    res.status(200).json({
+      status: "Success",
+      message: "Cash withdrawn successfully",
       value: amount,
     });
   } catch (error) {
