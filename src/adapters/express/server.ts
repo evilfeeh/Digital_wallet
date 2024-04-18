@@ -74,17 +74,19 @@ app.post("/withdraw", async (req: Request, res: Response) => {
   }
 });
 
-app.post("/transaction", (req: Request, res: Response) => {
+app.post("/transaction", async (req: Request, res: Response) => {
   try {
-    const order = req.body;
-    const payment = new Payment(order);
-    const response = payment.start();
+    const payment = new Payment(req.body);
+    const response = await payment.start();
+
+    if (response.status === "Failed") {
+      res.status(401).json(response);
+    }
+
     res.status(200).json(response);
   } catch (error) {
     logger.log("error", error.message);
-    res
-      .status(500)
-      .json({ status: "Error", message: "Transaction", value: error.message });
+    res.status(500).json({ status: "Error", message: "Internal error server" });
   }
 });
 

@@ -19,7 +19,7 @@ export class Payment {
     return true;
   }
 
-  async start() {
+  async start(): Promise<{ status: string; message: string }> {
     const insertedOrderId = await this.orderRepository.save(this.order);
     try {
       const isAuthorized = await this.authorizator();
@@ -51,8 +51,7 @@ export class Payment {
       return { status: "Success", message: "Order Complete Successfully" };
     } catch (error) {
       await this.orderRepository.update(insertedOrderId, "TRANSACTION FAILED");
-      this.logger.log("error", error.message);
-      throw new Error("Order Failed");
+      throw error;
     }
   }
 }
