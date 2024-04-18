@@ -1,9 +1,10 @@
 import * as express from "express";
 import { Request, Response, json } from "express";
 import { UserBuilder } from "../../utils";
-import { Payment, Wallet, User } from "../../services";
+import { Payment, Wallet, User } from "../../controllers";
 import { Logger } from "../../adapters/logger/logger";
 const logger = new Logger();
+
 const app = express();
 
 app.use(json());
@@ -17,17 +18,10 @@ app.get("/ping", (req, res) => {
 });
 
 app.post("/v1/user", async (req: Request, res: Response) => {
-  const userBuilder = new UserBuilder();
-  const candidate = req.body;
   try {
-    const user = await userBuilder
-      .fullname(candidate.fullname)
-      .cpfCnpj(candidate.CPF_CNPJ)
-      .email(candidate.email)
-      .phone(candidate.phone)
-      .password(candidate.password)
-      .commonUser()
-      .build();
+    const userManagment = new User();
+    const candidate = req.body;
+    userManagment.create(candidate);
 
     res.status(200).json({
       status: "Success",

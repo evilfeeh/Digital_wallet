@@ -1,4 +1,3 @@
-import { User, Wallet } from "../services";
 import { hashingPassword, DataValidation } from "./";
 
 export class UserBuilder {
@@ -11,8 +10,6 @@ export class UserBuilder {
     active: true,
     phone: "",
   };
-  private readonly userManagment = new User();
-  private readonly walletManagment = new Wallet();
   private readonly dataValidation = new DataValidation();
 
   fullname(name: string) {
@@ -57,18 +54,6 @@ export class UserBuilder {
   }
 
   async build() {
-    try {
-      await this.userManagment.create(this.user);
-      const createdUser = await this.userManagment.get(this.user.email);
-      await this.walletManagment.create(createdUser.id);
-
-      return {
-        fullname: this.user.fullname,
-        email: this.user.email,
-        phone: this.user.phone,
-      };
-    } catch (error) {
-      throw new Error(error);
-    }
+    return this.user;
   }
 }
