@@ -1,6 +1,5 @@
 import * as express from "express";
 import { Request, Response, json } from "express";
-import { UserBuilder } from "../../utils";
 import { Payment, Wallet, User } from "../../controllers";
 import { Logger } from "../../adapters/logger/logger";
 const logger = new Logger();

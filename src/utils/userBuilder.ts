@@ -1,4 +1,4 @@
-import { hashingPassword, DataValidation } from "./";
+import { hashingPassword, DataValidation } from ".";
 
 export class UserBuilder {
   user = {
