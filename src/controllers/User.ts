@@ -20,12 +20,12 @@ export class User {
         .commonUser()
         .build();
 
-      await walletManagment.create(user.id);
       const clientExists = await this.userRepository.get(user.email);
       if (clientExists) return clientExists;
 
-      const insertedObj = await this.userRepository.save(user);
-      if (insertedObj) return insertedObj;
+      const insertedUser = await this.userRepository.save(user);
+      await walletManagment.create(insertedUser.id);
+      return insertedUser;
     } catch (error) {
       throw new Error(error.message);
     }
