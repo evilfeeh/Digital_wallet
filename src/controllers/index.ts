@@ -1,3 +1,3 @@
-export * from './User'
-export * from './Wallet'
-export * from './Payment'
+export * from "./user";
+export * from "./wallet";
+export * from "./payment";

@@ -1,6 +1,6 @@
 import { Iwallet } from "../interfaces/wallet";
 import { Iuser } from "../interfaces/user";
-import { User } from "./User";
+import { User } from "./user";
 import { WalletRepository } from "../model/walletRepository";
 
 export class Wallet {
