@@ -8,10 +8,6 @@ const app = express();
 
 app.use(json());
 
-app.get("/", (req: Request, res: Response) => {
-  res.send("Hello World!");
-});
-
 app.get("/ping", (req, res) => {
   res.send("pong");
 });
