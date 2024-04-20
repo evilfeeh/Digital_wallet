@@ -1,0 +1,209 @@
+export const swaggerDocument = {
+  info: {
+    title: "Digital Wallet",
+    version: "1.0.0",
+    description: "A Digital Wallet to simplify your transactions",
+  },
+  host: "localhost:3000",
+  basePath: "/v1",
+  swagger: "2.0",
+  paths: {
+    "/ping": {
+      get: {
+        description: "Verify if application is working",
+        responses: {
+          "200": {
+            description: "pong",
+          },
+        },
+      },
+    },
+    "/user": {
+      get: {
+        description: "Returns users",
+        tags: ["Users"],
+        produces: ["application/json"],
+        responses: {
+          "200": {
+            description: "users",
+            schema: {
+              type: "object",
+              $ref: "#/definitions/Default",
+            },
+          },
+        },
+      },
+      put: {
+        description: "Create new user",
+        tags: ["Users"],
+        produces: ["application/json"],
+        parameters: [
+          {
+            name: "fullname",
+            description: "Full Name of customer",
+            in: "formData",
+            required: true,
+            type: "string",
+          },
+          {
+            name: "CPF_CNPJ",
+            description: "A Official Document (cpf, cnpj)",
+            in: "formData",
+            required: true,
+            type: "string",
+          },
+          {
+            name: "email",
+            description: "A valid email of customer",
+            in: "formData",
+            required: true,
+            type: "string",
+          },
+          {
+            name: "password",
+            description: "",
+            in: "formData",
+            required: true,
+            type: "string",
+          },
+          {
+            name: "phone",
+            description: "",
+            in: "formData",
+            required: true,
+            type: "string",
+          },
+        ],
+        responses: {
+          "200": {
+            description: "JSON Object returned",
+            schema: {
+              type: "object",
+              $ref: "#/definitions/Default",
+            },
+          },
+        },
+      },
+    },
+    "/deposit": {
+      put: {
+        description: "Deposit money into an account",
+        tags: ["Wallet"],
+        produces: ["application/json"],
+        parameters: [],
+        responses: {
+          "200": {
+            description: "Cash deposited successfully",
+            schema: {
+              type: "object",
+              $ref: "#/definitions/Default",
+            },
+          },
+          "401": {
+            description: "Deposit cannot be done",
+            schema: {
+              type: "object",
+              $ref: "#/definitions/Default",
+            },
+          },
+        },
+      },
+    },
+    "/withdraw": {
+      put: {
+        description: "Withdraw money of you account",
+        tags: ["Wallet"],
+        produces: ["application/json"],
+        parameters: [],
+        responses: {
+          "200": {
+            description: "Cash withdrawn successfully",
+            schema: {
+              type: "object",
+              $ref: "#/definitions/Default",
+            },
+          },
+          "401": {
+            description: "Deposit cannot be done",
+            schema: {
+              type: "object",
+              $ref: "#/definitions/Default",
+            },
+          },
+        },
+      },
+    },
+    "/transaction": {
+      post: {
+        description: "Make a cash transferency between two accounts",
+        tags: ["Transactions"],
+        produces: ["application/json"],
+        parameters: [
+          {
+            name: "payer_email",
+            description: "",
+            required: true,
+            type: "string",
+          },
+          {
+            name: "seller_email",
+            description: "",
+            required: true,
+            type: "string",
+          },
+          {
+            name: "value",
+            description: "",
+            required: true,
+            type: "number",
+          },
+        ],
+        responses: {
+          "200": {
+            description: "JSON Object returned",
+            schema: {
+              type: "object",
+              $ref: "#/definitions/Default",
+            },
+          },
+          "401": {
+            description: "Deposit cannot be done",
+            schema: {
+              type: "object",
+              $ref: "#/definitions/Default",
+            },
+          },
+        },
+      },
+    },
+  },
+  definitions: {
+    Default: {
+      properties: {
+        status: {
+          type: "string",
+        },
+        message: {
+          type: "string",
+        },
+      },
+    },
+  },
+  responses: {},
+  parameters: {},
+  securityDefinitions: {},
+  tags: [
+    {
+      name: "Users",
+      description: "User management and login",
+    },
+    {
+      name: "Wallet",
+      description: "Wallet managment",
+    },
+    {
+      name: "Transactions",
+      description: "Session responsible for movimentation betweeen wallets",
+    },
+  ],
+};
