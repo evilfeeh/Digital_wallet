@@ -3,15 +3,18 @@ import { Request, Response, json } from "express";
 import userRouter from "./routers/user.router";
 import transactionRouter from "./routers/transaction.router";
 import walletRouter from "./routers/wallet.router";
+import * as swaggerUi from "swagger-ui-express";
+import { swaggerDocument } from "../swagger/config";
 
 const app = express();
 
 app.use(json());
-app.use(userRouter);
-app.use(transactionRouter);
-app.use(walletRouter);
+app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+app.use("/v1", userRouter);
+app.use("/v1", transactionRouter);
+app.use("/v1", walletRouter);
 
-app.get("/ping", (req: Request, res: Response) => {
+app.get("/v1/ping", (req: Request, res: Response) => {
   res.send("pong");
 });
 
