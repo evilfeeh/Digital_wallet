@@ -6,7 +6,7 @@ const userManagment = new User();
 const logger = new Logger();
 const router = Router();
 
-router.post("/v1/user", async (req: Request, res: Response) => {
+router.put("/user", async (req: Request, res: Response) => {
   try {
     const user = await userManagment.create(req.body);
 

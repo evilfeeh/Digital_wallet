@@ -6,7 +6,7 @@ const logger = new Logger();
 const wallet = new Wallet();
 const router = Router();
 
-router.post("/deposit", async (req: Request, res: Response) => {
+router.put("/deposit", async (req: Request, res: Response) => {
   try {
     const { amount, user_email } = req.body;
     if (amount <= 0) res.status(401).json("Amount must be greater than zero");
