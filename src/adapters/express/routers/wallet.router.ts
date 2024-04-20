@@ -3,6 +3,7 @@ import { Wallet } from "../../../controllers";
 import { Logger } from "../../logger/logger";
 
 const logger = new Logger();
+const wallet = new Wallet();
 const router = Router();
 
 router.post("/deposit", async (req: Request, res: Response) => {
@@ -10,7 +11,6 @@ router.post("/deposit", async (req: Request, res: Response) => {
     const { amount, user_email } = req.body;
     if (amount <= 0) res.status(401).json("Amount must be greater than zero");
 
-    const wallet = new Wallet();
     const wasDeposited = await wallet.deposit(amount, user_email);
     if (!wasDeposited)
       res
@@ -33,7 +33,6 @@ router.post("/withdraw", async (req: Request, res: Response) => {
     const { amount, user_email } = req.body;
     if (amount <= 0) res.status(401).json("Amount must be greater than zero");
 
-    const wallet = new Wallet();
     const wasWithdrawn = await wallet.withdraw(amount, user_email);
     if (!wasWithdrawn)
       res

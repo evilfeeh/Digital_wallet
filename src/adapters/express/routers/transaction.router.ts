@@ -2,13 +2,13 @@ import { Router, Request, Response } from "express";
 import { Payment } from "../../../controllers";
 import { Logger } from "../../logger/logger";
 
+const payment = new Payment();
 const logger = new Logger();
 const router = Router();
 
 router.post("/transaction", async (req: Request, res: Response) => {
   try {
-    const payment = new Payment(req.body);
-    const response = await payment.start();
+    const response = await payment.start(req.body);
 
     if (response.status === "Failed") {
       res.status(401).json(response);
