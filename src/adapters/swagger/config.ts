@@ -19,23 +19,9 @@ export const swaggerDocument = {
       },
     },
     "/user": {
-      get: {
-        description: "Returns users",
-        tags: ["Users"],
-        produces: ["application/json"],
-        responses: {
-          "200": {
-            description: "users",
-            schema: {
-              type: "object",
-              $ref: "#/definitions/Default",
-            },
-          },
-        },
-      },
       put: {
         description: "Create new user",
-        tags: ["Users"],
+        tags: ["User"],
         produces: ["application/json"],
         parameters: [
           {
@@ -136,7 +122,7 @@ export const swaggerDocument = {
     "/transaction": {
       post: {
         description: "Make a cash transferency between two accounts",
-        tags: ["Transactions"],
+        tags: ["Transaction"],
         produces: ["application/json"],
         parameters: [
           {
@@ -194,7 +180,7 @@ export const swaggerDocument = {
   securityDefinitions: {},
   tags: [
     {
-      name: "Users",
+      name: "User",
       description: "User management and login",
     },
     {
@@ -202,7 +188,7 @@ export const swaggerDocument = {
       description: "Wallet managment",
     },
     {
-      name: "Transactions",
+      name: "Transaction",
       description: "Session responsible for movimentation betweeen wallets",
     },
   ],
