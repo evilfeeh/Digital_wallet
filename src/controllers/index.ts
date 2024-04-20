@@ -1,3 +1,3 @@
-export * from "./user";
-export * from "./wallet";
-export * from "./payment";
+export * from "./user.controller";
+export * from "./wallet.controller";
+export * from "./payment.controller";
