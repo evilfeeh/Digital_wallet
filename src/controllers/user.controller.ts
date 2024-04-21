@@ -1,7 +1,7 @@
 import { Iuser } from "../interfaces/user";
 import { UserRepository } from "../model/userRepository";
 import { UserBuilder } from "../utils";
-import { Wallet } from "./wallet";
+import { Wallet } from "./wallet.controller";
 
 export class User {
   private readonly userRepository = new UserRepository();

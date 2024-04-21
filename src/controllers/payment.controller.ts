@@ -4,12 +4,8 @@ import { IOrder } from "../interfaces/order";
 import { Logger } from "../adapters/logger/logger";
 
 export class Payment {
-  private readonly order: IOrder;
   private readonly logger = new Logger();
   private readonly orderRepository = new OrderRepository();
-  constructor(order: IOrder) {
-    this.order = order;
-  }
 
   private async authorizator(): Promise<boolean> {
     const randomNumber = Math.floor(Math.random() * 10);
@@ -19,8 +15,8 @@ export class Payment {
     return true;
   }
 
-  async start(): Promise<{ status: string; message: string }> {
-    const insertedOrderId = await this.orderRepository.save(this.order);
+  async start(order: IOrder): Promise<{ status: string; message: string }> {
+    const insertedOrderId = await this.orderRepository.save(order);
     try {
       const isAuthorized = await this.authorizator();
 
@@ -29,10 +25,10 @@ export class Payment {
         return { status: "Failed", message: "bank unathorized transaction" };
       }
 
-      const payer = new InstantiateUser(this.order.payer_email);
-      const seller = new InstantiateUser(this.order.seller_email);
+      const payer = new InstantiateUser(order.payer_email);
+      const seller = new InstantiateUser(order.seller_email);
 
-      if (payer.total_amount < this.order.value) {
+      if (payer.total_amount < order.value) {
         this.orderRepository.update(
           insertedOrderId,
           "BANK AUTHORIZATION FAILED - NO DEBIT"
@@ -40,8 +36,8 @@ export class Payment {
         return { status: "Failed", message: "Insuficient debit amount" };
       }
 
-      await payer.withdraw(this.order.value);
-      await seller.deposit(this.order.value);
+      await payer.withdraw(order.value);
+      await seller.deposit(order.value);
 
       this.orderRepository.update(
         insertedOrderId,
