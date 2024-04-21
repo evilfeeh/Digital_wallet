@@ -1,5 +1,9 @@
 # Digital Wallet
 
+Este projeto foi feito como prática do desenvolvimento de software a partir de um teste tecnico de um banco digital.
+
+## O Problema:
+
 Temos 2 tipos de usuários, os comuns e lojistas, ambos têm carteira com dinheiro e realizam transferências entre eles. Vamos nos atentar **somente** ao fluxo de transferência entre dois usuários.
 
 Requisitos:
@@ -33,3 +37,18 @@ POST /transaction
     "payee": 15
 }
 ```
+
+## Executando a Aplicação
+
+Este projeto foi construído em Typescript e possui uma `docker-compose` com duas imagens:
+
+-   1 instancia do projeto
+-   1 instancia de banco de dados
+
+Para executar, Crie um arquivo .env a partir do arquivo .env.sample e execute o comando
+
+```bash
+    docker compose up
+```
+
+Acesse a url `http://localhost:<port>` para acesso a documentação das rotas da api
