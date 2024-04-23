@@ -25,7 +25,6 @@ export class InstantiateUser {
       this.user = await this.userManagment.get(this.user_email);
       this.wallet = await this.walletManagment.get(this.user.id);
       this.total_amount = this.wallet.debit_amount;
-      console.log(this.wallet);
       return this.walletManagment.withdraw(amount, this.user.id);
     } catch (error) {
       throw error;
