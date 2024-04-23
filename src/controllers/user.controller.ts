@@ -11,7 +11,7 @@ export class User {
     const userBuilder = new UserBuilder();
     const walletManagment = new Wallet();
     try {
-      const user = await userBuilder
+      const user = userBuilder
         .fullname(candidate.fullname)
         .cpfCnpj(candidate.CPF_CNPJ)
         .email(candidate.email)
@@ -27,7 +27,7 @@ export class User {
       await walletManagment.create(insertedUser.id);
       return insertedUser;
     } catch (error) {
-      throw new Error(error.message);
+      throw error;
     }
   }
 
