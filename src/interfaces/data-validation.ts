@@ -1,14 +1,12 @@
-export interface IdataValidationResponse {
-  status: string;
+export interface messageStatus {
   message: string;
-  valid: boolean
+  hasError: boolean;
 }
 
 export interface IdataValidation {
-  cash: (amount: number) => IdataValidationResponse
-  checkEmail: (email: string) => IdataValidationResponse
-  checkFullname: (fullname: string) => IdataValidationResponse
-  checkPassword: (password: string) => IdataValidationResponse
-  checkDocument: (document: string) => IdataValidationResponse
-  checkPhone: (phone: string) => IdataValidationResponse
+  checkEmail: (email: string) => messageStatus;
+  checkFullname: (fullname: string) => messageStatus;
+  checkPassword: (password: string) => messageStatus;
+  checkDocument: (document: string) => messageStatus;
+  checkPhone: (phone: string) => messageStatus;
 }
