@@ -1,4 +1,4 @@
-import { hashingPassword, DataValidation } from ".";
+import { hashingPassword, IsPasswordValid, DataValidation } from ".";
 
 export class UserBuilder {
   private readonly dataValidation = new DataValidation();
@@ -13,6 +13,10 @@ export class UserBuilder {
     active: true,
     phone: "",
   };
+
+  validatePassword(password: string, hash: string) {
+    return IsPasswordValid(Buffer.from(password), hash);
+  }
 
   fullname(name: string) {
     this.itHasError = this.dataValidation.checkFullname(name).hasError;
