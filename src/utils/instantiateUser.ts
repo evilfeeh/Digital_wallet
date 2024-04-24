@@ -1,11 +1,11 @@
-import { User, Wallet } from "../controllers";
+import { UserController, Wallet } from "../controllers";
 
 export class InstantiateUser {
   user_email: string;
   total_amount: number;
   private user: any;
   private wallet: any;
-  private readonly userManagment = new User();
+  private readonly userManagment = new UserController();
   private readonly walletManagment = new Wallet();
   constructor(user_email: string) {
     this.user_email = user_email;

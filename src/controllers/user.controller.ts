@@ -2,16 +2,17 @@ import { Iuser } from "../interfaces/user";
 import { UserRepository } from "../model/userRepository";
 import { UserBuilder } from "../utils";
 import { Wallet } from "./wallet.controller";
+import { generateToken } from "../utils/jwtToken";
 
-export class User {
+export class UserController {
   private readonly userRepository = new UserRepository();
+  private readonly userBuilder = new UserBuilder();
   user: Iuser;
 
   async create(candidate: any): Promise<Iuser> {
-    const userBuilder = new UserBuilder();
     const walletManagment = new Wallet();
     try {
-      const user = userBuilder
+      const user = this.userBuilder
         .fullname(candidate.fullname)
         .cpfCnpj(candidate.CPF_CNPJ)
         .email(candidate.email)
@@ -39,6 +40,24 @@ export class User {
     }
   }
 
+  async login(
+    email: string,
+    password: string
+  ): Promise<{ status: boolean; token: string }> {
+    try {
+      const user = await this.userRepository.get(email);
+      if (!user) return { status: false, token: "" };
+      if (!user.active) return { status: false, token: "" };
+
+      if (!this.userBuilder.validatePassword(password, user.hash))
+        return { status: false, token: "" };
+
+      const token = generateToken(email);
+      return { status: true, token };
+    } catch (error) {
+      throw new Error(error.message);
+    }
+  }
   async update(email: string, toUpdate: any) {
     const updated = await this.userRepository.update(email, toUpdate);
     if (!updated) return false;
