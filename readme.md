@@ -1,5 +1,7 @@
 # Digital Wallet
 
+<img src="https://img.shields.io/github/last-commit/evilfeeh/digital_wallet.svg"> <img alt="GitHub Actions Workflow Status" src="https://img.shields.io/github/actions/workflow/status/evilfeeh/digital_wallet/node.js.yml">
+
 Este projeto foi feito como prática do desenvolvimento de software a partir de um teste tecnico de um banco digital.
 
 ## O Problema:
