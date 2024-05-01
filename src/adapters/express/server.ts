@@ -7,6 +7,12 @@ import loginRouter from "./routers/login.router";
 import * as swaggerUi from "swagger-ui-express";
 import { swaggerDocument } from "../swagger/config";
 import { authMiddleware } from "./middlewares";
+import RateLimit from "express-rate-limit";
+
+let limiter = RateLimit({
+  windowMs: 5 * 60 * 1000,
+  max: 100,
+});
 
 const app = express();
 
@@ -18,6 +24,7 @@ app.get("/v1/ping", (req: Request, res: Response) => {
 app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 app.use("/v1", loginRouter);
 
+app.use(limiter);
 app.use(authMiddleware);
 
 app.use("/v1", userRouter);
