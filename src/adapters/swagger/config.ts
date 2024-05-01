@@ -4,16 +4,47 @@ export const swaggerDocument = {
     version: "1.0.0",
     description: "A Digital Wallet to simplify your transactions",
   },
-  host: "localhost:3000",
   basePath: "/v1",
   swagger: "2.0",
   paths: {
     "/ping": {
       get: {
         description: "Verify if application is working",
+        tags: [],
+        produces: ["application/json"],
+        parameters: [{}],
         responses: {
           "200": {
             description: "pong",
+          },
+        },
+      },
+    },
+    "/login": {
+      get: {
+        description: "Login into server to receive your token to use API",
+        tags: ["User"],
+        produces: ["application/json"],
+        parameters: [
+          {
+            name: "email",
+            description: "A valid email of customer",
+            in: "formData",
+            required: true,
+            type: "string",
+          },
+          {
+            name: "password",
+            description: "",
+            in: "formData",
+            required: true,
+            type: "string",
+          },
+        ],
+        responses: {
+          "200": {
+            description: "pong",
+            schema: {},
           },
         },
       },
