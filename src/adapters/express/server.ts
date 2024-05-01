@@ -17,6 +17,9 @@ let limiter = RateLimit({
 const app = express();
 
 app.use(json());
+app.get("/", (req: Request, res: Response) => {
+  res.redirect("/docs");
+});
 app.get("/v1/ping", (req: Request, res: Response) => {
   res.send("pong");
 });
