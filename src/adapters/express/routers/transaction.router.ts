@@ -11,7 +11,7 @@ router.post("/transaction", async (req: Request, res: Response) => {
     const response = await payment.start(req.body);
 
     if (response.status === "Failed") {
-      res.status(401).json(response);
+      return res.status(401).json(response);
     }
 
     res.status(200).json(response);
