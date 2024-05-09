@@ -1,11 +1,23 @@
 export const swaggerDocument = {
   info: {
     title: "Digital Wallet",
-    version: "1.0.0",
     description: "A Digital Wallet to simplify your transactions",
+    version: "0.10.0",
+    contact: {
+      email: "felipegoncalvesdsantos@gmail.com",
+    },
   },
   basePath: "/v1",
-  swagger: "2.0",
+  openapi: "3.1.0",
+  components: {
+    securitySchemes: {
+      BearerAuth: {
+        type: "http",
+        scheme: "bearer",
+        bearerFormat: "JWT",
+      },
+    },
+  },
   paths: {
     "/ping": {
       get: {
@@ -53,6 +65,7 @@ export const swaggerDocument = {
       put: {
         description: "Create new user",
         tags: ["User"],
+        security: [{ BearerAuth: [] }],
         produces: ["application/json"],
         parameters: [
           {
@@ -106,6 +119,7 @@ export const swaggerDocument = {
       put: {
         description: "Deposit money into an account",
         tags: ["Wallet"],
+        security: [{ BearerAuth: [] }],
         produces: ["application/json"],
         parameters: [],
         responses: {
@@ -130,6 +144,7 @@ export const swaggerDocument = {
       put: {
         description: "Withdraw money of you account",
         tags: ["Wallet"],
+        security: [{ BearerAuth: [] }],
         produces: ["application/json"],
         parameters: [],
         responses: {
@@ -154,6 +169,7 @@ export const swaggerDocument = {
       post: {
         description: "Make a cash transferency between two accounts",
         tags: ["Transaction"],
+        security: [{ BearerAuth: [] }],
         produces: ["application/json"],
         parameters: [
           {
@@ -208,7 +224,6 @@ export const swaggerDocument = {
   },
   responses: {},
   parameters: {},
-  securityDefinitions: {},
   tags: [
     {
       name: "User",
