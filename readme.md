@@ -1,5 +1,7 @@
 # Digital Wallet
 
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/b88d56e782304d9e8a1903ac00845688)](https://app.codacy.com/gh/evilfeeh/digital-wallet?utm_source=github.com&utm_medium=referral&utm_content=evilfeeh/digital-wallet&utm_campaign=Badge_Grade)
+
 <img src="https://img.shields.io/github/last-commit/evilfeeh/digital_wallet.svg"> <img alt="GitHub Actions Workflow Status" src="https://img.shields.io/github/actions/workflow/status/evilfeeh/digital_wallet/node.js.yml">
 
 Este projeto foi feito como prática do desenvolvimento de software a partir de um teste tecnico de um banco digital.
