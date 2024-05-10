@@ -13,13 +13,6 @@ export class Logger implements Ilogger {
         new transports.File({ filename: "combined.log" }),
       ],
     });
-    if (process.env.NODE_ENV !== "production") {
-      this.logger.add(
-        new transports.Console({
-          format: format.simple(),
-        })
-      );
-    }
   }
   log(level: string, message: string) {
     this.logger.log({
