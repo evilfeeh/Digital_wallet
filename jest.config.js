@@ -5,4 +5,7 @@ module.exports = {
     clearMocks: true,
     maxWorkers: 1,
     testMatch: ["**/*.spec.ts"],
+    collectCoverage: true,
+    collectCoverageFrom: ["src/**/*.ts"],
+    coverageReporters: ["lcov"],
 };

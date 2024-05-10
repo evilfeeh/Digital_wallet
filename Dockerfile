@@ -1,4 +1,4 @@
-FROM node:latest
+FROM node:20.18.1-alpine
 
 WORKDIR /digital_wallet
 
@@ -6,6 +6,8 @@ COPY . /digital_wallet/
 
 RUN npm i -y
 
+RUN npm run build
+
 EXPOSE ${PORT}
 
-CMD ["npm", "run", "start:dev"]
+CMD ["nodemon", "-r", "dotenv/config", "./dist/adapters/express/server.js"]
