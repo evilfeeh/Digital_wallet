@@ -1,8 +1,8 @@
 import { IUserRepository } from "../interfaces/user-repository";
 import { DataSource } from "typeorm";
 import { Users } from "../entities";
-import { Iuser } from "../interfaces/user";
-import datasource from "../config/ormconfig";
+import { Iuser } from "../../../application/entities/Iuser";
+import datasource from "../database/ormconfig";
 
 export class UserRepository implements IUserRepository {
   AppDataSource: DataSource = datasource;

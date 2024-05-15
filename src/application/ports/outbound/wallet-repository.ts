@@ -1,4 +1,4 @@
-import { Iwallet } from "../interfaces/wallet";
+import { Iwallet } from "../../entities/Iwallet";
 
 export interface IWalletRepository {
   get: (walletId: Iwallet["user_id"]) => Promise<Iwallet>;

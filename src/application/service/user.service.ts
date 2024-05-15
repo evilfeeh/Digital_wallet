@@ -1,7 +1,7 @@
 import { Iuser } from "../interfaces/user";
 import { UserRepository } from "../model/userRepository";
 import { UserBuilder } from "../utils";
-import { Wallet } from "./wallet.controller";
+import { Wallet } from "./wallet.service";
 import { generateToken } from "../utils/jwtToken";
 
 export class UserController {

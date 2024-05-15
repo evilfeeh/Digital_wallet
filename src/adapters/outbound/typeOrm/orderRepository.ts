@@ -1,6 +1,6 @@
-import datasource from "../config/ormconfig";
+import datasource from "../database/ormconfig";
 import { DataSource } from "typeorm";
-import { Orders, Wallet } from "../entities";
+import { Orders, Wallet } from "../../../application/entities";
 
 interface IOrderRepository {
   get(order_id: string): Promise<Orders>;

@@ -1,4 +1,4 @@
-import { UserController, Wallet } from "../controllers";
+import { UserController, Wallet } from "../application/service";
 
 export class InstantiateUser {
   user_email: string;

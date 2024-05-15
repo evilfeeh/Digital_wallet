@@ -1,7 +1,7 @@
 import { Wallet } from "../entities";
 import { DataSource } from "typeorm";
-import { IWalletRepository } from "../interfaces/wallet-repository";
-import datasource from "../config/ormconfig";
+import { IWalletRepository } from "../../../application/ports/outbound/wallet-repository";
+import datasource from "../database/ormconfig";
 
 export class WalletRepository implements IWalletRepository {
   AppDataSource: DataSource = datasource;

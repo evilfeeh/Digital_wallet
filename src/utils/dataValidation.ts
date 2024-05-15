@@ -1,5 +1,5 @@
 import validator from "validator";
-import { IdataValidation } from "../interfaces/data-validation";
+import { IdataValidation } from "./data-validation";
 
 export class DataValidation implements IdataValidation {
   private message: string = "";

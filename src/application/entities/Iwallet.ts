@@ -1,4 +1,4 @@
-import { Iuser } from "../interfaces/user";
+import { Iuser } from "./Iuser";
 
 export type Iwallet = {
   id?: string;
