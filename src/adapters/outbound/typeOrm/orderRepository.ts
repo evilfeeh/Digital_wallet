@@ -1,17 +1,10 @@
 import datasource from "../database/ormconfig";
 import { DataSource } from "typeorm";
 import { Orders, Wallet } from "../../../application/entities";
-
-interface IOrderRepository {
-  get(order_id: string): Promise<Orders>;
-  save(order: Orders): Promise<Orders["id"]>;
-  update(order: any, status: string): Promise<boolean>;
-}
-
-interface UserTransaction {
-  debit_amount: number;
-  user_id: string;
-}
+import {
+  IOrderRepository,
+  UserTransaction,
+} from "../../../application/ports/outbound/IOrderRepository";
 
 export class OrderRepository implements IOrderRepository {
   private AppDataSource: DataSource = datasource;

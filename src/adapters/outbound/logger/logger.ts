@@ -1,7 +1,12 @@
-import { createLogger, format, transports, Logger as loggerClass } from 'winston'
-import { Ilogger } from './logger-interface'
+import {
+  createLogger,
+  format,
+  transports,
+  Logger as loggerClass,
+} from "winston";
+import { ILogger } from "../../../application/ports/outbound/ILogger";
 
-export class Logger implements Ilogger {
+export class Logger implements ILogger {
   private readonly logger: loggerClass;
   constructor() {
     this.logger = createLogger({

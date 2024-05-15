@@ -1,12 +1,16 @@
-import { OrderRepository, UserRepository, WalletRepository } from "../model";
-import { IOrder } from "../interfaces/order";
-import { Logger } from "../adapters/logger/logger";
+import { IOrderRepository } from "../ports/outbound/IOrderRepository";
+import { IUserRepository } from "../ports/outbound/IUserRepository";
+import { IWalletRepository } from "../ports/outbound/IWalletRepository";
+import { IOrder } from "../entities/Iorder";
+import { ILogger } from "../ports/outbound/ILogger";
 
 export class Payment {
-  private readonly logger = new Logger();
-  private readonly orderRepository = new OrderRepository();
-  private readonly userRepository = new UserRepository();
-  private readonly walletRepository = new WalletRepository();
+  constructor(
+    private readonly logger: ILogger,
+    private readonly orderRepository: IOrderRepository,
+    private readonly userRepository: IUserRepository,
+    private readonly walletRepository: IWalletRepository
+  ) {}
 
   private async authorizator(): Promise<boolean> {
     const randomNumber = Math.floor(Math.random() * 10);

@@ -1,29 +1,29 @@
-import { Iuser } from '../interfaces/user';
-import { Entity, PrimaryGeneratedColumn, Column } from "typeorm"
+import { Iuser } from "../entities/Iuser";
+import { Entity, PrimaryGeneratedColumn, Column } from "typeorm";
 
 @Entity()
-export class Users implements Iuser{
+export class Users implements Iuser {
   @PrimaryGeneratedColumn("uuid")
-  id: string
+  id: string;
 
   @Column("varchar", { length: 50 })
-  fullname: string
+  fullname: string;
 
   @Column("varchar", { length: 14, unique: true })
-  CPF_CNPJ: string
+  CPF_CNPJ: string;
 
   @Column("varchar", { length: 50, unique: true })
-  email: string
+  email: string;
 
   @Column("varchar", { length: 100 })
-  hash: string
+  hash: string;
 
   @Column("boolean", { default: true })
-  commonUser: boolean
+  commonUser: boolean;
 
   @Column("boolean", { default: true })
-  active: boolean
+  active: boolean;
 
   @Column("varchar", { length: 11 })
-  phone: string
+  phone: string;
 }
