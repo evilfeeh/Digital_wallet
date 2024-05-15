@@ -1,14 +1,14 @@
-import { Entity, PrimaryGeneratedColumn, Column } from "typeorm"
-import { Iwallet } from '../interfaces/wallet'
+import { Entity, PrimaryGeneratedColumn, Column } from "typeorm";
+import { Iwallet } from "../../application/entities/Iwallet";
 
 @Entity()
-export class Wallet implements Iwallet{
+export class Wallet implements Iwallet {
   @PrimaryGeneratedColumn("uuid")
-  id: string
+  id: string;
 
   @Column("varchar")
-  user_id: string
+  user_id: string;
 
   @Column("float", { precision: 10, scale: 2 })
-  debit_amount: number
-} 
+  debit_amount: number;
+}

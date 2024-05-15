@@ -5,12 +5,10 @@ import { IOrder } from "../entities/Iorder";
 import { ILogger } from "../ports/outbound/ILogger";
 
 export class Payment {
-  constructor(
-    private readonly logger: ILogger,
-    private readonly orderRepository: IOrderRepository,
-    private readonly userRepository: IUserRepository,
-    private readonly walletRepository: IWalletRepository
-  ) {}
+  private readonly logger: ILogger;
+  private readonly orderRepository: IOrderRepository;
+  private readonly userRepository: IUserRepository;
+  private readonly walletRepository: IWalletRepository;
 
   private async authorizator(): Promise<boolean> {
     const randomNumber = Math.floor(Math.random() * 10);

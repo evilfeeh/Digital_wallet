@@ -1,10 +1,10 @@
-import { Iwallet } from "../interfaces/wallet";
-import { Iuser } from "../interfaces/user";
+import { Iwallet } from "../../application/entities/Iwallet";
+import { Iuser } from "../../application/entities/Iuser";
 import { UserController } from "./user.service";
-import { WalletRepository } from "../model/walletRepository";
+import { IWalletRepository } from "../ports/outbound/IWalletRepository";
 
 export class Wallet {
-  private walletRepository = new WalletRepository();
+  private walletRepository: IWalletRepository;
   private userController = new UserController();
   async create(user_id: Iuser["id"]): Promise<Iwallet> {
     try {

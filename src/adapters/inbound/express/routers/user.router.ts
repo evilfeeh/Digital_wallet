@@ -1,6 +1,6 @@
 import { Router, Request, Response } from "express";
-import { UserController } from "../../../controllers";
-import { Logger } from "../../logger/logger";
+import { UserController } from "../../../../application/service";
+import { Logger } from "../../../outbound/logger/logger";
 
 const userManagment = new UserController();
 const logger = new Logger();

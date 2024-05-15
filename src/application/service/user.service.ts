@@ -1,8 +1,8 @@
-import { Iuser } from "../interfaces/user";
-import { UserRepository } from "../model/userRepository";
-import { UserBuilder } from "../utils";
+import { Iuser } from "../../application/entities/Iuser";
+import { UserRepository } from "../../adapters/outbound/typeOrm/userRepository";
+import { UserBuilder } from "../../utils/userBuilder";
 import { Wallet } from "./wallet.service";
-import { generateToken } from "../utils/jwtToken";
+import { generateToken } from "../../utils/jwtToken";
 
 export class UserController {
   private readonly userRepository = new UserRepository();

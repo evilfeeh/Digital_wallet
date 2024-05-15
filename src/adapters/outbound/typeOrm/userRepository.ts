@@ -1,6 +1,6 @@
-import { IUserRepository } from "../interfaces/user-repository";
+import { IUserRepository } from "../../../application/ports/outbound/IUserRepository";
 import { DataSource } from "typeorm";
-import { Users } from "../entities";
+import { Users } from "../../../application/entities";
 import { Iuser } from "../../../application/entities/Iuser";
 import datasource from "../database/ormconfig";
 

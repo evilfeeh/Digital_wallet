@@ -1,6 +1,6 @@
 import { Router, Request, Response } from "express";
-import { Payment } from "../../../controllers";
-import { Logger } from "../../logger/logger";
+import { Payment } from "../../../../application/service/payment.service";
+import { Logger } from "../../../outbound/logger/logger";
 
 const payment = new Payment();
 const logger = new Logger();

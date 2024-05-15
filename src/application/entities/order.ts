@@ -1,4 +1,4 @@
-import { IOrder } from "../interfaces/order";
+import { IOrder } from "../../application/entities/Iorder";
 import { Entity, PrimaryGeneratedColumn, Column } from "typeorm";
 
 @Entity()
