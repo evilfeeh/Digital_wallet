@@ -1,12 +1,12 @@
 import * as express from "express";
 import { Request, Response, json } from "express";
-import userRouter from "./routers/user.router";
-import transactionRouter from "./routers/transaction.router";
-import walletRouter from "./routers/wallet.router";
-import loginRouter from "./routers/login.router";
+import userRouter from "./routers/user.controller";
+import transactionRouter from "./routers/transaction.controller";
+import walletRouter from "./routers/wallet.controller";
+import loginRouter from "./routers/login.controller";
 import * as swaggerUi from "swagger-ui-express";
 import { swaggerDocument } from "../swagger/config";
-import { authMiddleware } from "./middlewares";
+import { validAuthentication } from "./validAuthentication";
 import RateLimit from "express-rate-limit";
 
 let limiter = RateLimit({
@@ -28,7 +28,7 @@ app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 app.use("/v1", loginRouter);
 
 app.use(limiter);
-app.use(authMiddleware);
+app.use(validAuthentication);
 
 app.use("/v1", userRouter);
 app.use("/v1", transactionRouter);

@@ -1,7 +1,7 @@
 import { verifyToken } from "../../../utils/jwtToken";
 import { Request, Response, NextFunction } from "express";
 
-export function authMiddleware(
+export function validAuthentication(
   req: Request,
   res: Response,
   next: NextFunction
