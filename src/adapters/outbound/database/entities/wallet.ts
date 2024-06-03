@@ -1,8 +1,7 @@
 import { Entity, PrimaryGeneratedColumn, Column } from "typeorm";
-import { Iwallet } from "../../application/entities/Iwallet";
 
 @Entity()
-export class Wallet implements Iwallet {
+export class Wallet {
   @PrimaryGeneratedColumn("uuid")
   id: string;
 
