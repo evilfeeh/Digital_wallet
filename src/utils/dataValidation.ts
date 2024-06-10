@@ -1,7 +1,12 @@
 import validator from "validator";
-import { IdataValidation } from "./data-validation";
+import { Either, Left, Right } from "./shared/Either";
 
-export class DataValidation implements IdataValidation {
+export interface messageStatus {
+  message: string;
+  hasError: boolean;
+}
+
+export class DataValidation {
   private message: string = "";
   private hasError: boolean = false;
 
@@ -48,20 +53,15 @@ export class DataValidation implements IdataValidation {
     };
   }
 
-  checkDocument(document: string) {
-    if (validator.isEmpty(document))
-      this.message = "Document CPF/CPNJ cannot be empty";
+  static checkDocument(document: string) {
+    if (validator.isEmpty(document)) Left("Document CPF/CPNJ cannot be empty");
     if (!validator.isLength(document, { min: 11, max: 20 }))
-      this.message = "Document should be a valid document";
+      Left("Document should be a valid document");
     if (document.search(/[.\/-]/g) != -1) {
       const justNumbers = document.replace(/[.\/-]/g, "");
-      if (justNumbers.length >= 11)
-        this.message = "Document should be a valid document";
+      if (justNumbers.length >= 11) Left("Document should be a valid document");
     }
-    return {
-      message: this.message,
-      hasError: this.message.length > 0 ? true : false,
-    };
+    Right("");
   }
   checkPhone(phone: string) {
     if (validator.isEmpty(phone)) this.message = "Phone cannot be empty";
