@@ -1,4 +1,7 @@
 import { Entity, UniqueEntityID } from "../../utils/shared/Entity";
+import { CPF } from "../valueObjects/cpf";
+import { Email } from "../valueObjects/email";
+import { Password } from "../valueObjects/password";
 
 export interface Ipassword {
   password: string;
@@ -27,7 +30,7 @@ export class User extends Entity<Iuser> {
     return this.properties.fullname;
   }
 
-  public get document() {
+  public get CPF_CNPJ() {
     return this.properties.CPF_CNPJ;
   }
 
@@ -58,5 +61,15 @@ export class User extends Entity<Iuser> {
     this.properties.active = !this.properties.active;
   }
 
-  public create(properties: Iuser, id?: UniqueEntityID, password?: string) {}
+  public static create(
+    properties: Iuser,
+    id?: UniqueEntityID,
+    password?: string
+  ): User {
+    properties.CPF_CNPJ = new CPF(properties.CPF_CNPJ).toString();
+    properties.hash = new Password(password).toString() ?? null;
+    properties.email = new Email(properties.email).toString();
+
+    return new User(properties);
+  }
 }
