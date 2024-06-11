@@ -17,6 +17,11 @@ export class Order extends Entity<Iorder> {
   private constructor(properties: Iorder, id?: UniqueEntityID) {
     super(properties, id);
   }
+
+  get id() {
+    return this.id;
+  }
+
   get value() {
     return this.properties.value;
   }
