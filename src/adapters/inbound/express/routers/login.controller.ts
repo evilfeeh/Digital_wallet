@@ -1,10 +1,10 @@
 import { Router, Request, Response } from "express";
-import { UserController } from "../../../../application/service";
+import { UserService } from "../../../../application/service";
 import { Logger } from "../../../outbound/logger/logger";
 
 const router = Router();
 const logger = new Logger();
-const userManagment = new UserController();
+const userManagment = new UserService();
 
 router.post("/login", async (req: Request, res: Response) => {
   try {
