@@ -1,4 +1,4 @@
-import { Iuser } from "../../entities/Iuser";
+import { Iuser } from "../../entities/User";
 
 export interface IUserRepository {
   get: (email: Iuser["email"]) => Promise<Iuser>;
