@@ -1,10 +1,11 @@
-import datasource from "../database/ormconfig";
+import datasource from "../ormconfig";
 import { DataSource } from "typeorm";
-import { Orders, Wallet } from "../../../application/entities";
+import { Orders } from "../entities/order";
+import { Wallet } from "../entities/wallet";
 import {
   IOrderRepository,
   UserTransaction,
-} from "../../../application/ports/outbound/IOrderRepository";
+} from "../../../../application/ports/outbound/IOrderRepository";
 
 export class OrderRepository implements IOrderRepository {
   private AppDataSource: DataSource = datasource;

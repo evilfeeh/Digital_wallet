@@ -1,8 +1,7 @@
-import { IUserRepository } from "../../../application/ports/outbound/IUserRepository";
+import { IUserRepository } from "../../../../application/ports/outbound/IUserRepository";
 import { DataSource } from "typeorm";
-import { Users } from "../../../application/entities";
-import { Iuser } from "../../../application/entities/Iuser";
-import datasource from "../database/ormconfig";
+import { Users } from "../entities/user";
+import datasource from "../ormconfig";
 
 export class UserRepository implements IUserRepository {
   AppDataSource: DataSource = datasource;
@@ -25,7 +24,7 @@ export class UserRepository implements IUserRepository {
       throw error;
     }
   }
-  async save(user: Iuser): Promise<Users> {
+  async save(user: Users): Promise<Users> {
     try {
       const insertedUsers = await this.AppDataSource.createQueryBuilder()
         .insert()
