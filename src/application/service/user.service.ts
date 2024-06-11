@@ -1,34 +1,24 @@
-import { Iuser } from "../../application/entities/Iuser";
-import { UserRepository } from "../../adapters/outbound/typeOrm/userRepository";
-import { UserBuilder } from "../../utils/userBuilder";
+import { IUserRepository } from "../ports/outbound/IUserRepository";
 import { Wallet } from "./wallet.service";
 import { generateToken } from "../../utils/jwtToken";
+import { User, Iuser } from "../entities/User";
+import { Left, Right } from "../../utils/shared/Either";
+import { IsPasswordValid } from "../../utils/shared/HashingPassword";
 
-export class UserController {
-  private readonly userRepository = new UserRepository();
-  private readonly userBuilder = new UserBuilder();
-  user: Iuser;
-
-  async create(candidate: any): Promise<Iuser> {
+export class UserService {
+  private readonly userRepository: IUserRepository;
+  async create(candidate: Iuser): Promise<any> {
     const walletManagment = new Wallet();
     try {
-      const user = this.userBuilder
-        .fullname(candidate.fullname)
-        .cpfCnpj(candidate.CPF_CNPJ)
-        .email(candidate.email)
-        .phone(candidate.phone)
-        .password(candidate.password)
-        .commonUser()
-        .build();
-
+      const user = User.create(candidate);
       const clientExists = await this.userRepository.get(user.email);
       if (clientExists) return clientExists;
 
-      const insertedUser = await this.userRepository.save(user);
-      await walletManagment.create(insertedUser.id);
-      return insertedUser;
+      await this.userRepository.save(user);
+      await walletManagment.create(user.id);
+      return Right("User Inserted Successfully");
     } catch (error) {
-      throw error;
+      Left(error);
     }
   }
 
@@ -49,7 +39,7 @@ export class UserController {
       if (!user) return { status: false, token: "" };
       if (!user.active) return { status: false, token: "" };
 
-      if (!this.userBuilder.validatePassword(password, user.hash))
+      if (!IsPasswordValid(password, user.hash))
         return { status: false, token: "" };
 
       const token = generateToken(email);
