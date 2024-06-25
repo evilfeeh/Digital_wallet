@@ -8,13 +8,13 @@ export interface Ipassword {
 }
 
 export type Iuser = {
-  fullname: string;
-  CPF_CNPJ: string;
-  email: string;
-  hash: string;
-  commonUser: boolean;
-  active: boolean;
-  phone: string;
+  fullname?: string;
+  CPF_CNPJ?: string;
+  email?: string;
+  hash?: string;
+  commonUser?: boolean;
+  active?: boolean;
+  phone?: string;
 };
 
 export class User extends Entity<Iuser> {
@@ -70,6 +70,6 @@ export class User extends Entity<Iuser> {
     properties.hash = new Password(password).toString() ?? null;
     properties.email = new Email(properties.email).toString();
 
-    return new User(properties);
+    return new User(properties, id);
   }
 }

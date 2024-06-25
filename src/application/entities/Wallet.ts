@@ -1,21 +1,38 @@
 import { Entity, UniqueEntityID } from "../../utils/shared/Entity";
 
-export interface Iwallet {
-  id?: string;
-  user_id: string;
-  debit_amount: number;
-}
+export type Iwallet = {
+  user_id?: string;
+  debit_amount?: number;
+};
 
 export class Wallet extends Entity<Iwallet> {
-  constructor(props: Iwallet, id?: UniqueEntityID) {
+  private constructor(props: Iwallet, id?: UniqueEntityID) {
     super(props, id);
   }
+
+  public get id() {
+    return this._id;
+  }
+
+  get user_id() {
+    return this.properties.user_id;
+  }
+
   get amount() {
     return this.properties.debit_amount;
   }
-  withdraw() {}
 
-  deposit() {}
+  withdraw(valueToSubtract: number) {
+    this.properties.debit_amount -= valueToSubtract;
+    return this.properties.debit_amount;
+  }
 
-  create(properties: Iwallet, id?: UniqueEntityID) {}
+  deposit(valueToAdd: number) {
+    this.properties.debit_amount += valueToAdd;
+    return valueToAdd;
+  }
+
+  public static create(properties: Iwallet, id?: UniqueEntityID): Wallet {
+    return new Wallet(properties);
+  }
 }

@@ -1,8 +1,8 @@
 import { Router, Request, Response } from "express";
-import { UserController } from "../../../../application/service";
+import { UserService } from "../../../../application/service";
 import { Logger } from "../../../outbound/logger/logger";
 
-const userManagment = new UserController();
+const userManagment = new UserService();
 const logger = new Logger();
 const router = Router();
 

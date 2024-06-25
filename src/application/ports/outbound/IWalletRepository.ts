@@ -1,7 +1,7 @@
-import { Iwallet } from "../../entities/Iwallet";
+import { Iwallet } from "../../entities/Wallet";
 
 export interface IWalletRepository {
-  get: (walletId: Iwallet["user_id"]) => Promise<Iwallet>;
+  get: (walletId: string) => Promise<Iwallet>;
   save: (wallet: Iwallet) => Promise<Iwallet>;
-  update: (amount: number, id: Iwallet["id"]) => Promise<boolean>;
+  update: (amount: number, id: string) => Promise<boolean>;
 }

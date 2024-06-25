@@ -1,9 +1,9 @@
 import { Router, Request, Response } from "express";
-import { Wallet } from "../../../../application/service/wallet.service";
+import { WalletService } from "../../../../application/service/wallet.service";
 import { Logger } from "../../../outbound/logger/logger";
 
 const logger = new Logger();
-const wallet = new Wallet();
+const walletService = new WalletService();
 const router = Router();
 
 router.put("/deposit", async (req: Request, res: Response) => {
@@ -11,7 +11,7 @@ router.put("/deposit", async (req: Request, res: Response) => {
     const { amount, user_email } = req.body;
     if (amount <= 0) res.status(401).json("Amount must be greater than zero");
 
-    const wasDeposited = await wallet.deposit(amount, user_email);
+    const wasDeposited = await walletService.deposit(amount, user_email);
     if (!wasDeposited)
       res
         .status(401)
@@ -33,7 +33,7 @@ router.post("/withdraw", async (req: Request, res: Response) => {
     const { amount, user_email } = req.body;
     if (amount <= 0) res.status(401).json("Amount must be greater than zero");
 
-    const wasWithdrawn = await wallet.withdraw(amount, user_email);
+    const wasWithdrawn = await walletService.withdraw(amount, user_email);
     if (!wasWithdrawn)
       res
         .status(401)

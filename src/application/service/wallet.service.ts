@@ -1,60 +1,40 @@
-import { Iwallet } from "../../application/entities/Iwallet";
-import { Iuser } from "../../application/entities/Iuser";
-import { UserController } from "./user.service";
-import { IWalletRepository } from "../ports/outbound/IWalletRepository";
-
-export class Wallet {
-  private walletRepository: IWalletRepository;
-  private userController = new UserController();
-  async create(user_id: Iuser["id"]): Promise<Iwallet> {
+import { Iwallet, Wallet } from "../entities/Wallet";
+import { Iuser } from "../entities/User";
+export class WalletService {
+  async create(user_id: any): Promise<Iwallet> {
     try {
-      const wallet = {
+      const properties = {
         user_id,
         debit_amount: 0,
       };
 
-      const walletExists = await this.walletRepository.get(user_id);
-      if (walletExists) return walletExists;
-
-      return this.walletRepository.save(wallet);
+      return Wallet.create(properties);
     } catch (error) {
       throw error;
     }
   }
 
-  async get(user_id: Iuser["id"]): Promise<Iwallet> {
+  async get(wallet_id: any): Promise<Iwallet> {
     try {
-      return this.walletRepository.get(user_id);
+      return Wallet.create({}, wallet_id);
     } catch (error) {
       throw error;
     }
   }
 
-  async deposit(amount: number, user_email: Iuser["email"]): Promise<boolean> {
+  async deposit(amount: number, wallet_id: any): Promise<number> {
     try {
-      // TODO: save action in history
-      const { id: user_id } = await this.userController.get(user_email);
-      const wallet = await this.walletRepository.get(user_id);
-
-      const newAmount = wallet.debit_amount + amount;
-      await this.walletRepository.update(newAmount, wallet.id);
-
-      return true;
+      const wallet = Wallet.create({ debit_amount: amount }, wallet_id);
+      return wallet.deposit(amount);
     } catch (error) {
       throw error;
     }
   }
 
-  async withdraw(amount: number, user_email: Iuser["email"]): Promise<boolean> {
+  async withdraw(amount: number, wallet_id: any): Promise<number> {
     try {
-      const user = new UserController();
-      const { id: user_id } = await this.userController.get(user_email);
-      const wallet = await this.walletRepository.get(user_id);
-
-      const newAmount = wallet.debit_amount - amount;
-      await this.walletRepository.update(newAmount, wallet.id);
-
-      return true;
+      const wallet = Wallet.create({ debit_amount: amount }, wallet_id);
+      return wallet.withdraw(amount);
     } catch (error) {
       throw error;
     }

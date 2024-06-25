@@ -1,11 +1,11 @@
-import { Wallet } from "../../../application/entities";
+import { Wallet } from "../entities/wallet";
 import { DataSource } from "typeorm";
 import { IWalletRepository } from "../../../../application/ports/outbound/IWalletRepository";
 import datasource from "../ormconfig";
 
 export class WalletRepository implements IWalletRepository {
   AppDataSource: DataSource = datasource;
-  async get(userId: Wallet["user_id"]): Promise<Wallet> {
+  async get(userId: string): Promise<Wallet> {
     try {
       return this.AppDataSource.getRepository(Wallet)
         .createQueryBuilder("wallet")
@@ -28,7 +28,7 @@ export class WalletRepository implements IWalletRepository {
       throw error;
     }
   }
-  async update(amount: number, id: Wallet["id"]): Promise<boolean> {
+  async update(amount: number, id: string): Promise<boolean> {
     try {
       const { raw } = await this.AppDataSource.createQueryBuilder()
         .update(Wallet)
