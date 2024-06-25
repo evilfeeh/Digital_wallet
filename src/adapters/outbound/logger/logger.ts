@@ -4,8 +4,9 @@ import {
   transports,
   Logger as loggerClass,
 } from "winston";
+import { ILogger } from "../../../application/ports/outbound/ILogger";
 
-export class Logger {
+export class Logger implements ILogger {
   private readonly logger: loggerClass;
   constructor() {
     this.logger = createLogger({

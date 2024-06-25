@@ -1,9 +1,9 @@
 {
-  "compilerOptions": {
-      "target": "ES6",
-      "module": "CommonJS",
-      "rootDir": "./src",
-      "experimentalDecorators": true,
-      "outDir": "./dist"
-  }
+    "compilerOptions": {
+        "target": "ES6",
+        "module": "CommonJS",
+        "rootDir": "./src",
+        "experimentalDecorators": true,
+        "outDir": "./dist"
+    }
 }
