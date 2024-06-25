@@ -1,4 +1,4 @@
-import { Order } from "../../entities/Order";
+import { Iorder } from "../../entities/Order";
 
 export interface UserTransaction {
   debit_amount: number;
@@ -6,8 +6,8 @@ export interface UserTransaction {
 }
 
 export interface IOrderRepository {
-  get(order_id: string): Promise<Order>;
-  save(order: Order): Promise<Order["id"]>;
+  get(order_id: string): Promise<Iorder>;
+  save(order: Iorder): Promise<string>;
   update(order: any, status: string): Promise<boolean>;
   transaction(
     payer: UserTransaction,

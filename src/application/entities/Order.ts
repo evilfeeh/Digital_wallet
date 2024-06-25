@@ -5,13 +5,13 @@ enum orderStatus {
   "canceled",
 }
 
-export interface Iorder {
+export type Iorder = {
   payer_id: string;
   seller_id: string;
   value: number;
   status: orderStatus;
   fee: number;
-}
+};
 
 export class Order extends Entity<Iorder> {
   private constructor(properties: Iorder, id?: UniqueEntityID) {

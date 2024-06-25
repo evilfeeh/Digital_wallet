@@ -1,8 +1,8 @@
 import { IOrderRepository } from "../ports/outbound/IOrderRepository";
 import { IUserRepository } from "../ports/outbound/IUserRepository";
 import { IWalletRepository } from "../ports/outbound/IWalletRepository";
-import { IOrder } from "../entities/Iorder";
 import { ILogger } from "../ports/outbound/ILogger";
+import { Iorder } from "../entities/Order";
 
 export class Payment {
   private readonly logger: ILogger;
@@ -18,7 +18,7 @@ export class Payment {
     return true;
   }
 
-  async start(order: IOrder): Promise<{ status: string; message: string }> {
+  async start(order: Iorder): Promise<{ status: string; message: string }> {
     const insertedOrderId = await this.orderRepository.save(order);
     try {
       const isAuthorized = await this.authorizator();
@@ -28,14 +28,9 @@ export class Payment {
         return { status: "Failed", message: "bank unathorized transaction" };
       }
 
-      const [payer, seller] = await Promise.all([
-        this.userRepository.get(order.payer_email),
-        this.userRepository.get(order.seller_email),
-      ]);
-
       const [payer_wallet, seller_wallet] = await Promise.all([
-        this.walletRepository.get(payer.id),
-        this.walletRepository.get(seller.id),
+        this.walletRepository.get(order.payer_id),
+        this.walletRepository.get(order.seller_id),
       ]);
 
       if (payer_wallet.debit_amount < order.value) {
@@ -46,13 +41,13 @@ export class Payment {
         return { status: "Failed", message: "Insuficient debit amount" };
       }
 
-      await this.orderRepository.transaction(
+      this.orderRepository.transaction(
         {
-          user_id: payer.id,
+          user_id: order.payer_id,
           debit_amount: payer_wallet.debit_amount,
         },
         {
-          user_id: seller.id,
+          user_id: order.seller_id,
           debit_amount: seller_wallet.debit_amount,
         },
         order.value

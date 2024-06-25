@@ -21,11 +21,11 @@ export class OrderRepository implements IOrderRepository {
   }
   async save(order: Orders): Promise<Orders["id"]> {
     try {
-      const inserted = await this.AppDataSource.createQueryBuilder()
-        .insert()
-        .into(Orders)
-        .values(order)
-        .execute();
+    const inserted = await this.AppDataSource.createQueryBuilder()
+      .insert()
+      .into(Orders)
+      .values(order)
+      .execute();
       return inserted.raw[0].id;
     } catch (error) {
       throw error;

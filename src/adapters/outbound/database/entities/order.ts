@@ -1,5 +1,11 @@
 import { Entity, PrimaryGeneratedColumn, Column } from "typeorm";
 
+enum orderStatus {
+  "pending",
+  "done",
+  "canceled",
+}
+
 @Entity()
 export class Orders {
   @PrimaryGeneratedColumn("uuid")
@@ -14,9 +20,9 @@ export class Orders {
   @Column("float", { precision: 10, scale: 2 })
   value: number;
 
+  @Column("varchar", { length: 30 })
+  status: orderStatus;
+
   @Column("float", { precision: 10, scale: 2 })
   fee: number;
-
-  @Column("varchar", { length: 30 })
-  status: string;
 }
