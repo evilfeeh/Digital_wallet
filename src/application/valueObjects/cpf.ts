@@ -4,7 +4,7 @@ export class CPF {
   private readonly _cpf: string;
 
   constructor(cpf: string) {
-    if (!Guard.checkDocument(this._cpf)) {
+    if (!Guard.checkDocument(cpf)) {
       throw new Error();
     }
     this._cpf = cpf;
