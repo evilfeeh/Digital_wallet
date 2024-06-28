@@ -5,8 +5,6 @@ services:
         env_file: .env
         ports:
             - ${PORT}:${PORT}
-        volumes:
-            - .:/digital_wallet
         depends_on:
             - postgres
         deploy:

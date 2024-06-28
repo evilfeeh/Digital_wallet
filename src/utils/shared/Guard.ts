@@ -11,6 +11,7 @@ export class Guard {
       Left("Email is not valid");
       return false;
     }
+    return true;
   }
 
   static checkFullname(fullname: string) {
@@ -21,6 +22,7 @@ export class Guard {
       Left("You should pass at least two names");
     if (!validator.isLength(fullname, { min: 6, max: 50 }))
       Left("FullName should be filled with: first name + last name");
+    return true;
   }
 
   static checkPassword(password: string) {
@@ -45,6 +47,7 @@ export class Guard {
       Left("password should have minimum 8 charaters");
       return false;
     }
+    return true;
   }
 
   static checkDocument(document: string) {
@@ -56,11 +59,13 @@ export class Guard {
       Left("Document should be a valid document");
       return false;
     }
+    return true;
   }
 
   static checkPhone(phone: string) {
     if (validator.isEmpty(phone)) Left("Phone cannot be empty");
     if (!validator.isNumeric(phone)) Left("Phone should be numeric");
     if (phone.length != 11) Left("Phone should be valid");
+    return true;
   }
 }

@@ -1,4 +1,4 @@
-FROM node:20.18.1-alpine
+FROM node:20.9.0
 
 WORKDIR /digital_wallet
 
@@ -10,4 +10,4 @@ RUN npm run build
 
 EXPOSE ${PORT}
 
-CMD ["nodemon", "-r", "dotenv/config", "./dist/adapters/express/server.js"]
+CMD ["node", "-r", "dotenv/config", "./dist/adapters/inbound/express/server.js"]
