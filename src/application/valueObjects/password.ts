@@ -4,7 +4,7 @@ import { hashingPassword } from "../../utils/shared/HashingPassword";
 export class Password {
   private readonly _password: string;
   constructor(password: string) {
-    if (Guard.checkPassword(password)) {
+    if (!Guard.checkPassword(password)) {
       throw new Error();
     }
     this._password = password;
