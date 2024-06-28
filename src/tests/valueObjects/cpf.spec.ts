@@ -7,6 +7,7 @@ describe("Value Object CPF", () => {
     };
     expect(sut).toThrow();
   });
+
   it("should return a CPF as string", () => {
     const sut = new CPF("123.456.789-34").toString();
 
