@@ -24,4 +24,25 @@ describe("User Entity", () => {
     expect(user.commonUser).toBeTruthy();
     expect(user.active).toBeTruthy();
   });
+  
+  it("Should return most properties of User", () => {
+    const properties = Object.assign({}, userProperties);
+    const user = User.create(properties);
+
+    expect(user.CPF_CNPJ).toBe(properties.CPF_CNPJ);
+    expect(user.fullname).toBe(properties.fullname);
+    expect(user.email).toBe(properties.email);
+    expect(user.phone).toBe(properties.phone);
+  });
+
+  it("Should toggle user", () => {
+    const properties = Object.assign({}, userProperties);
+    const user = User.create(properties);
+
+    user.toggleActive();
+    expect(user.active).toBeFalsy;
+
+    user.toggleCommonUser();
+    expect(user.commonUser).toBeFalsy();
+  });
 });
