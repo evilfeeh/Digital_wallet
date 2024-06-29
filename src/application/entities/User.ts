@@ -2,6 +2,7 @@ import { Entity, UniqueEntityID } from "../../utils/shared/Entity";
 import { CPF } from "../valueObjects/cpf";
 import { Email } from "../valueObjects/email";
 import { Password } from "../valueObjects/password";
+import { Phone } from "../valueObjects/phone";
 
 export interface Ipassword {
   password: string;
@@ -12,6 +13,7 @@ export type Iuser = {
   CPF_CNPJ?: string;
   email?: string;
   hash?: string;
+  password?: string;
   commonUser?: boolean;
   active?: boolean;
   phone?: string;
@@ -57,19 +59,35 @@ export class User extends Entity<Iuser> {
   toggleCommonUser() {
     this.properties.commonUser = !this.properties.commonUser;
   }
+
   toggleActive() {
     this.properties.active = !this.properties.active;
   }
 
-  public static create(
-    properties: Iuser,
-    id?: UniqueEntityID,
-    password?: string
-  ): User {
-    properties.CPF_CNPJ = new CPF(properties.CPF_CNPJ).toString();
-    properties.hash = new Password(password).toString() ?? null;
-    properties.email = new Email(properties.email).toString();
+  private static defineCommonUser(CPF_CNPJ: string): boolean {
+    const commonUser = CPF_CNPJ.length <= 11 ? true : false;
+    return commonUser;
+  }
 
+  private static defineHash(properties: Iuser): string {
+    const hash = new Password(properties.password).toHashed();
+    delete properties.password;
+    return hash;
+  }
+
+  private static validPhone(phoneNumber: string): string {
+    const validatedPhoneNumber = new Phone(phoneNumber).toString();
+    return validatedPhoneNumber;
+  }
+
+  public static create(properties: Iuser, id?: UniqueEntityID): User {
+    properties.CPF_CNPJ = new CPF(properties.CPF_CNPJ).toString();
+    properties.email = new Email(properties.email).toString();
+    properties.commonUser = this.defineCommonUser(properties.CPF_CNPJ);
+    properties.hash = this.defineHash(properties);
+    properties.phone = this.validPhone(properties.phone);
+
+    properties.active = true;
     return new User(properties, id);
   }
 }

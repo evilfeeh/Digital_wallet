@@ -63,9 +63,18 @@ export class Guard {
   }
 
   static checkPhone(phone: string) {
-    if (validator.isEmpty(phone)) Left("Phone cannot be empty");
-    if (!validator.isNumeric(phone)) Left("Phone should be numeric");
-    if (phone.length != 11) Left("Phone should be valid");
+    if (validator.isEmpty(phone)) {
+      Left("Phone cannot be empty");
+      return false;
+    }
+    if (!validator.isNumeric(phone)) {
+      Left("Phone should be numeric");
+      return false;
+    }
+    if (phone.length != 11) {
+      Left("Phone should be valid");
+      return false;
+    }
     return true;
   }
 }

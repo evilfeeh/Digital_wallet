@@ -4,7 +4,7 @@ module.exports = {
     testEnvironment: "node",
     clearMocks: true,
     maxWorkers: 1,
-    testMatch: ["**/*.spec.ts"],
+    testMatch: ["/**/*.spec.ts"],
     collectCoverage: true,
     collectCoverageFrom: ["src/**/*.ts"],
     coverageReporters: ["lcov"],
