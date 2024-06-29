@@ -4,10 +4,11 @@ export class CPF {
   private readonly _cpf: string;
 
   constructor(cpf: string) {
-    if (!Guard.checkDocument(cpf)) {
+    const rawCpf = cpf.replace(/\D/g, "");
+    if (!Guard.checkDocument(rawCpf)) {
       throw new Error();
     }
-    this._cpf = cpf;
+    this._cpf = rawCpf;
   }
 
   public toString() {
