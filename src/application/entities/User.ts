@@ -12,6 +12,7 @@ export type Iuser = {
   CPF_CNPJ?: string;
   email?: string;
   hash?: string;
+  password?: string;
   commonUser?: boolean;
   active?: boolean;
   phone?: string;
@@ -57,19 +58,29 @@ export class User extends Entity<Iuser> {
   toggleCommonUser() {
     this.properties.commonUser = !this.properties.commonUser;
   }
+
   toggleActive() {
     this.properties.active = !this.properties.active;
   }
 
-  public static create(
-    properties: Iuser,
-    id?: UniqueEntityID,
-    password?: string
-  ): User {
-    properties.CPF_CNPJ = new CPF(properties.CPF_CNPJ).toString();
-    properties.hash = new Password(password).toString() ?? null;
-    properties.email = new Email(properties.email).toString();
+  private static defineCommonUser(CPF_CNPJ: string): boolean {
+    const commonUser = CPF_CNPJ.length <= 11 ? true : false;
+    return commonUser;
+  }
 
+  private static defineHash(properties: Iuser) {
+    const hash = new Password(properties.password).toHashed();
+    delete properties.password;
+    return hash;
+  }
+
+  public static create(properties: Iuser, id?: UniqueEntityID): User {
+    properties.CPF_CNPJ = new CPF(properties.CPF_CNPJ).toString();
+    properties.email = new Email(properties.email).toString();
+    properties.commonUser = this.defineCommonUser(properties.CPF_CNPJ);
+    properties.hash = this.defineHash(properties);
+
+    properties.active = true;
     return new User(properties, id);
   }
 }
