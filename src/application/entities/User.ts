@@ -2,6 +2,7 @@ import { Entity, UniqueEntityID } from "../../utils/shared/Entity";
 import { CPF } from "../valueObjects/cpf";
 import { Email } from "../valueObjects/email";
 import { Password } from "../valueObjects/password";
+import { Phone } from "../valueObjects/phone";
 
 export interface Ipassword {
   password: string;
@@ -68,10 +69,15 @@ export class User extends Entity<Iuser> {
     return commonUser;
   }
 
-  private static defineHash(properties: Iuser) {
+  private static defineHash(properties: Iuser): string {
     const hash = new Password(properties.password).toHashed();
     delete properties.password;
     return hash;
+  }
+
+  private static validPhone(phoneNumber: string): string {
+    const validatedPhoneNumber = new Phone(phoneNumber).toString();
+    return validatedPhoneNumber;
   }
 
   public static create(properties: Iuser, id?: UniqueEntityID): User {
@@ -79,6 +85,7 @@ export class User extends Entity<Iuser> {
     properties.email = new Email(properties.email).toString();
     properties.commonUser = this.defineCommonUser(properties.CPF_CNPJ);
     properties.hash = this.defineHash(properties);
+    properties.phone = this.validPhone(properties.phone);
 
     properties.active = true;
     return new User(properties, id);
