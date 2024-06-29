@@ -33,6 +33,8 @@ describe("User Entity", () => {
     expect(user.fullname).toBe(properties.fullname);
     expect(user.email).toBe(properties.email);
     expect(user.phone).toBe(properties.phone);
+    expect(user.hash).toBeTruthy();
+    expect(typeof user.hash).toBe("string");
   });
 
   it("Should toggle user", () => {
