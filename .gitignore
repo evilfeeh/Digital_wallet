@@ -15,4 +15,4 @@ yarn-error.log
 node_modules/
 *.log
 dist/*
-coverage/
+coverage/lcov-report
