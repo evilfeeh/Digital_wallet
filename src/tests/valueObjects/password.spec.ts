@@ -19,10 +19,18 @@ describe("Value Objects Password", () => {
 
   it("Shouldn't have less than 8 caracters", () => {
     const sut = () => {
-      new Password("1234567");
+      new Password("1#q");
     };
 
     expect(sut).toThrow();
+  });
+
+  it("Should have numbers, letters and special caracters to be valid", () => {
+    const fn = () => {
+      new Password("#$%");
+    };
+
+    expect(fn).toThrow();
   });
 
   it("Should be a valid password", () => {
