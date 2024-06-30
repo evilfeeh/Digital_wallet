@@ -1,6 +1,17 @@
 import { generateToken, verifyToken } from "../../utils/jwtToken";
+const originalEnv = process.env;
 
 describe("JWT Token", () => {
+  beforeEach(() => {
+    jest.resetModules();
+    process.env = {
+      ...originalEnv,
+      JWT_SECRET_KEY: "someGroupOfCaractersFormingASecret",
+    };
+  });
+  afterEach(() => {
+    process.env = originalEnv;
+  });
   it("Should validate a JWT", () => {
     const email = "teste@teste.com";
     const token = generateToken(email);
