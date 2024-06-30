@@ -11,4 +11,11 @@ describe("Entity Wallet", () => {
     expect(wallet instanceof Wallet).toBeTruthy();
     expect(wallet.id).toBeTruthy();
   });
+  it("Should get all properties correctly", () => {
+    const properties = Object.assign({}, walletProperties);
+    const wallet = Wallet.create(properties);
+
+    expect(wallet.user_id).toBe(walletProperties.user_id);
+    expect(wallet.amount).toBe(walletProperties.debit_amount);
+  });
 });
