@@ -13,4 +13,11 @@ describe("Value Object CPF", () => {
 
     expect(typeof sut).toBe("string");
   });
+
+  it("Should CPF have the right amount of carater", () => {
+    const fn = () => {
+      new CPF("1234567891011121314151617181920");
+    };
+    expect(fn).toThrow();
+  });
 });
