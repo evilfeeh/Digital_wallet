@@ -10,8 +10,8 @@
         "migration:create": "npx ts-node ./node_modules/.bin/typeorm migration:create",
         "migration:run": "npx ts-node ./node_modules/.bin/typeorm migration:run -d ./src/config/ormconfig.ts",
         "migration:revert": "npx ts-node ./node_modules/.bin/typeorm migration:revert -d ./src/config/ormconfig.ts",
-        "test": "jest",
-        "test:coverage": "jest --coverage",
+        "test": "jest --runInBand",
+        "test:coverage": "npm run test --coverage",
         "typeorm": "typeorm-ts-node-esm"
     },
     "repository": {
