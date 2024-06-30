@@ -7,9 +7,9 @@ jobs:
     runs-on: ubuntu-latest
     name: Codacy Coverage Reporter
     steps:
-      - uses: codacy/codacy-coverage-reporter-action@v1.3.0
-      - name: Run codacy-coverage-reporter
-      - uses: codacy/codacy-coverage-reporter-action@v1
+      - uses: actions/checkout@v2
+      - name: Codacy Coverage Reporter
+        uses: codacy/codacy-coverage-reporter-action@v1.3.0
         with:
           project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}
-          coverage-reports: coverage/lcov.info
+          coverage-reports: lcov.info
